@@ -23,3 +23,10 @@ Liste de donnée de fond
 
 **************************************************************************************************************************************
 
+12/10/2022 :
+------------
+
+A faire pour le 19 :
+
+    - definir le dialogue entre application tierce et la BDD (XML et JSON)
+    - Ecrire DTD, XSD, JSON Schema des messages
