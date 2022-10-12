@@ -1,16 +1,21 @@
 from multiprocessing.connection import wait
 from time import sleep
+from turtle import clear
 import pdfplumber
 import json
 import requests
 
-with pdfplumber.open("CV/PDF/CV_HAUF_2.pdf") as pdf:
-    page = pdf.pages[0]
-    text = page.extract_text()
+# Fonction qui affiche le nom de tout les fichiers contenue dans un dossier
 
-with pdfplumber.open("CV/PDF/CV_HAUF_1.pdf") as pdf:
-    page2 = pdf.pages[0]
-    text2 = page2.extract_text()
+
+def getCV():
+    import os
+    listeCV = []
+    for file in os.listdir("CV/PDF"):
+        if file.endswith(".pdf"):
+            listeCV.append(file)
+    return listeCV
+
 
 listeCompétence = ["Java", "C", "SQL", "Vue.js", "C++", "C#", "JavaScript", "Python", ".NET", "Spring",
                    "SpringBoot", "JS", "Anglais", "Espagnol", "Arabe", "Chinois", "Allemand", "Italien", "PHP", "CSS", "HTML", "Web"]
@@ -18,9 +23,6 @@ listeCompétenceTmp = []
 
 ListeNuméroType = ["06", "07", "09"]
 ListeNuméroTypeTmp = []
-
-print()
-print()
 
 
 def getDataCompetence(text):
@@ -96,27 +98,87 @@ def getPrenomNom(text):
                     monPrenom = prenom
                     envoisNom = 1
 
+# Function that get the linkedin url from the text if it exist
 
-getDataCompetence(text)
-getDataTelNumber(text)
-mail = getDataMail(text)
-prenom, nom = getPrenomNom(text)
 
-print(listeCompétenceTmp)
-print(ListeNuméroTypeTmp)
-print(mail)
-print(prenom + " " + nom)
+def getLinkedin(text):
+    for row in text.split("\n"):
+        for row2 in row.split(" "):
+            if row2.__contains__("linkedin"):
+                return row2
 
-listeCompétenceTmp = []
-ListeNuméroTypeTmp = []
-print('---------------------------------------------------------')
+# Function that get the github url from the text if it exist
 
-getDataCompetence(text2)
-getDataTelNumber(text2)
-mail = getDataMail(text2)
-prenom, nom = getPrenomNom(text2)
 
-print(listeCompétenceTmp)
-print(ListeNuméroTypeTmp)
-print(mail)
-print(prenom + " " + nom)
+def getGithub(text):
+    for row in text.split("\n"):
+        for row2 in row.split(" "):
+            if row2.__contains__("github"):
+                return row2
+
+# Function that create a list that contain the values Licence, Master, Doctorat, DUT, DU, BTS, BAC, Brevet, CAP, BEP
+
+
+def getDiplome(text):
+    diplome = ["Licence", "Master", "Doctorat",
+               "DUT", "BTS", "BAC", "Brevet", "CAP", "BEP"]
+    diplomeTmp = []
+    for row in text.split("\n"):
+        for dipl in diplome:
+            if row.__contains__(dipl):
+                if dipl not in diplomeTmp:
+                    diplomeTmp.append(dipl)
+    return diplomeTmp
+
+
+def afficheCV():
+    for cv in getCV():
+        with pdfplumber.open("CV/PDF/" + cv) as pdf:
+            for page in pdf.pages:
+                text = page.extract_text()
+                getDataCompetence(text)
+                getDataTelNumber(text)
+                mail = getDataMail(text)
+                prenom, nom = getPrenomNom(text)
+                linkedin = getLinkedin(text)
+                github = getGithub(text)
+                diplome = getDiplome(text)
+                if prenom != "":
+                    print("Prénom : " + prenom)
+                else:
+                    print("Prénom : Inconnu")
+                if nom != None:
+                    print("Nom : " + nom)
+                else:
+                    print("Nom : Inconnu")
+                if mail != "":
+                    print("Mail : " + mail)
+                else:
+                    print("Mail : Inconnu")
+                if linkedin != None:
+                    print("Linkedin : " + linkedin)
+                else:
+                    print("Linkedin : Inconnu")
+                if github != None:
+                    print("Github : " + github)
+                else:
+                    print("Github : Inconnu")
+                if len(diplome) > 0:
+                    print("Diplome : " + str(diplome))
+                else:
+                    print("Diplome : Inconnu")
+                if len(listeCompétenceTmp) > 0:
+                    print("Compétence : " + str(listeCompétenceTmp))
+                else:
+                    print("Compétence : Inconnu")
+                if len(ListeNuméroTypeTmp) > 0:
+                    print("Numéro : " + str(ListeNuméroTypeTmp))
+                else:
+                    print("Numéro : Inconnu")
+                print(
+                    "---------------------------------------------------------------------")
+                listeCompétenceTmp.clear()
+                ListeNuméroTypeTmp.clear()
+
+
+afficheCV()
