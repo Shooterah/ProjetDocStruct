@@ -4,11 +4,11 @@ import pdfplumber
 import json
 import requests
 
-with pdfplumber.open("C:/M1_DSC/UEP/CV.pdf") as pdf:
+with pdfplumber.open("CV/PDF/CV_HAUF_2.pdf") as pdf:
     page = pdf.pages[0]
     text = page.extract_text()
 
-with pdfplumber.open("C:/Users/flori/Downloads/CV_Jeoffrey_PEREIRA.pdf") as pdf:
+with pdfplumber.open("CV/PDF/CV_HAUF_1.pdf") as pdf:
     page2 = pdf.pages[0]
     text2 = page2.extract_text()
 
