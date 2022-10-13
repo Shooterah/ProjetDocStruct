@@ -1,0 +1,39 @@
+
+{
+    "CV": {
+        "nom" : "...",
+        "prenom" : "...",
+        "telephone" : "...",
+        "mail" : "...",
+        "linkedin" : "...",
+        "github" : "...",
+        "competences" : [
+            {
+                "competance" : "..."
+            },
+            {
+                "competance" : "..."
+            },
+            {
+                "competance" : "..."
+            },
+            {
+                "competance" : "..."
+            }
+        ],
+        "formations" : [
+            {
+                "formation" : "..."
+            },
+            {
+                "formation" : "..."
+            },
+            {
+                "formation" : "..."
+            },
+            {
+                "formation" : "..."
+            }
+        ]
+    }
+}

@@ -1,0 +1,71 @@
+
+
+<!-- XML qui simule une requête de toutes les infos du CV en fonction d'une competance -->
+
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE CV SYSTEM "dataCV.dtd">
+<CV>
+    <competance>...</competance>
+</CV>
+
+<!-- Exemple de réponse : -->
+
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE CV SYSTEM "dataCV.dtd">
+<CV>
+    <nom>...</nom>
+    <prenom>...</prenom>
+    <telephone>...</telephone>
+    <mail>...</mail>
+    <linkedin>...</linkedin>
+    <github>...</github>
+    <competances>
+        <competance>...</competance>
+        <competance>...</competance>
+        <competance>...</competance>
+        <competance>...</competance>
+    </competances>
+    <formations>
+        <formation>...</formation>
+        <formation>...</formation>
+        <formation>...</formation>
+        <formation>...</formation>
+    </formations>
+</CV>
+
+
+
+<!-- XML qui simule une requête de toutes les infos du CV en fonction d'une compétance et d'une formation -->
+
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE CV SYSTEM "dataCV.dtd">
+<CV>
+    <competance>...</competance>
+    <formation>...</formation>
+</CV>
+
+<!-- Exemple de réponse : -->
+
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE CV SYSTEM "dataCV.dtd">
+<CV>
+    <nom>...</nom>
+    <prenom>...</prenom>
+    <telephone>...</telephone>
+    <mail>...</mail>
+    <linkedin>...</linkedin>
+    <github>...</github>
+    <competances>
+        <competance>...</competance>
+        <competance>...</competance>
+        <competance>...</competance>
+        <competance>...</competance>
+    </competances>
+    <formations>
+        <formation>...</formation>
+        <formation>...</formation>
+        <formation>...</formation>
+        <formation>...</formation>
+    </formations>
+</CV>
+
