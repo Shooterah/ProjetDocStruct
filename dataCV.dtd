@@ -1,5 +1,8 @@
 
-<!ELEMENT CV (nom, prenom, telephone, mail, linkedin, github, competances, formations)>
+<!ELEMENT CVS (CV+)>
+<!ELEMENT personnes (personne+)>
+<!ELEMENT personne (nom, prenom, telephone)>
+<!ELEMENT CV (personne, mail, linkedin, github, competances, formations)>
 <!ELEMENT nom (#PCDATA)>
 <!ELEMENT prenom (#PCDATA)>
 <!ELEMENT telephone (#PCDATA)>

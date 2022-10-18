@@ -1,71 +1,69 @@
 
 
-<!-- XML qui simule une requête de toutes les infos du CV en fonction d'une competance -->
+<!-- XML qui simule une requête de toutes les infos des CV en fonction d'une competence -->
 
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE CV SYSTEM "dataCV.dtd">
-<CV>
-    <competance>...</competance>
-</CV>
+<CVS>
+    <competence>...</competence>
+</CVS>
 
 <!-- Exemple de réponse : -->
 
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE CV SYSTEM "dataCV.dtd">
-<CV>
-    <nom>...</nom>
-    <prenom>...</prenom>
-    <telephone>...</telephone>
-    <mail>...</mail>
-    <linkedin>...</linkedin>
-    <github>...</github>
-    <competances>
-        <competance>...</competance>
-        <competance>...</competance>
-        <competance>...</competance>
-        <competance>...</competance>
-    </competances>
-    <formations>
-        <formation>...</formation>
-        <formation>...</formation>
-        <formation>...</formation>
-        <formation>...</formation>
-    </formations>
-</CV>
+<CVS>
+    <CV>
+        <personne>
+            <nom>...</nom>
+            <prenom>...</prenom>
+            <telephone>...</telephone>
+        </personne>
+        <mail>...</mail>
+        <linkedin>...</linkedin>
+        <github>...</github>
+        <competences>
+            <competence>...</competence>
+            <competence>...</competence>
+            <competence>...</competence>
+            <competence>...</competence>
+        </competences>
+        <formations>
+            <formation>...</formation>
+            <formation>...</formation>
+            <formation>...</formation>
+            <formation>...</formation>
+        </formations>
+    </CV>
+    <CV>
+        ...
+    </CV>
+    ...
+</CVS>
 
 
 
-<!-- XML qui simule une requête de toutes les infos du CV en fonction d'une compétance et d'une formation -->
+<!-- XML qui simule une requête de toutes personnes en fonction d'une formation -->
 
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE CV SYSTEM "dataCV.dtd">
-<CV>
-    <competance>...</competance>
+<personne>
     <formation>...</formation>
-</CV>
+</personne>
 
 <!-- Exemple de réponse : -->
 
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE CV SYSTEM "dataCV.dtd">
-<CV>
-    <nom>...</nom>
-    <prenom>...</prenom>
-    <telephone>...</telephone>
-    <mail>...</mail>
-    <linkedin>...</linkedin>
-    <github>...</github>
-    <competances>
-        <competance>...</competance>
-        <competance>...</competance>
-        <competance>...</competance>
-        <competance>...</competance>
-    </competances>
-    <formations>
-        <formation>...</formation>
-        <formation>...</formation>
-        <formation>...</formation>
-        <formation>...</formation>
-    </formations>
-</CV>
+<personnes>
+    <personne>
+        <nom>...</nom>
+        <prenom>...</prenom>
+        <telephone>...</telephone>
+    </personne>
+    <personne>
+        ...
+    </personne>
+    ...
+</personnes>
 
