@@ -42,11 +42,6 @@
             <xs:element name="personne" type="personneType" maxOccurs="unbounded"/>
         </xs:sequence>
     </xs:complexType>
-    <xs:complexType name="CVSType">
-        <xs:sequence>
-            <xs:element name="CV" type="CVType" maxOccurs="unbounded"/>
-        </xs:sequence>
-    </xs:complexType>
     <xs:complexType name="CVType">
         <xs:sequence>
             <xs:element name="personne" type="personneType" maxOccurs="1"/>
@@ -55,6 +50,11 @@
             <xs:element name="github" type="xs:string" maxOccurs="1"/>
             <xs:element name="competences" type="competencesType" maxOccurs="1"/>
             <xs:element name="formations" type="formationsType" maxOccurs="1"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="CVSType">
+        <xs:sequence>
+            <xs:element name="CV" type="CVType" maxOccurs="unbounded"/>
         </xs:sequence>
     </xs:complexType>
 </xs:schema>
