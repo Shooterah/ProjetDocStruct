@@ -1,0 +1,33 @@
+
+var questionCompFromCv = {
+    "question" {
+        "type" : "CompFromCv",
+        "envoyeur": {
+            "id" : "1",
+            "auteur" : "Truc",
+            "date" : "2015-01-01"
+        },
+        "competences": [
+            "C++",
+            "Java",
+            "C#"
+        ]
+    }
+}
+
+
+var questionPersFromForma = {
+    "question" {
+        "type" : "PersFromForma",
+        "envoyeur": {
+            "id" : "2",
+            "auteur" : "Truc",
+            "date" : "2015-01-01"
+        },
+        "formations": [
+            "DUT GEII",
+            "Licence Informatique",
+            "Master DSC"
+        ]
+    }
+}

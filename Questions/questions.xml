@@ -1,0 +1,32 @@
+
+<!-- XML qui simule une requête de toutes les infos des CV en fonction d'une competence -->
+
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE question SYSTEM "questions.dtd">
+<question type="CompFromCv">
+    <envoyeur>
+        <id>1</id>
+        <auteur>...</auteur>
+        <date>...</date>
+    </envoyeur>
+    <competences>
+        <competence>...</competence>
+        <competence>...</competence>
+    </competences>
+</question>
+
+<!-- XML qui simule une requête de toutes personnes en fonction d'une formation -->
+
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE question SYSTEM "questions.dtd">
+<question type="PersFromForma">
+    <envoyeur>
+        <id>2</id>
+        <auteur>...</auteur>
+        <date>...</date>
+    </envoyeur>
+    <formations>
+        <formation>...</formation>
+        <formation>...</formation>
+    </formations>
+</question>

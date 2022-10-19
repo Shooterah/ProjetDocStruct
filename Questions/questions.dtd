@@ -1,0 +1,12 @@
+<!ELEMENT question (envoyeur, (competences | formations))>
+<!ATTLIST question type (CompFromCv | PersFromForma) #REQUIRED>
+<!ELEMENT envoyeur (id, auteur, date)>
+<!ELEMENT id (#PCDATA)>
+<!ELEMENT auteur (#PCDATA)>
+<!ELEMENT date (#PCDATA)>
+<!ELEMENT competences (competence*)>
+<!ELEMENT competence (#PCDATA)>
+<!ELEMENT formations (formation*)>
+<!ELEMENT formation (#PCDATA)>
+
+

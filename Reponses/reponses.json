@@ -1,0 +1,80 @@
+
+var RepCompFromCv = {
+    "reponse": {
+        "type": "RepCompFromCv",
+        "envoyeur": {
+            "id": "REP1",
+            "auteur": "Truc",
+            "date": "2015-01-01"
+        },
+        "destinataire": "Machin",
+        "CVS": {
+            "nb": 2,
+            "CV": [
+                {
+                    "personne": {
+                        "nom": "Hauf",
+                        "prenom": "Jocelyn",
+                        "telephone": "0123456789"
+                    },
+                    "mail": "jocelyn.hauf@etu.univ-st-etienne.fr",
+                    "linkedin": "https://www.linkedin.com/in/jocelyn-hauf",
+                    "github": "github.com/jocelynhauf",
+                    "competences": [
+                        "C",
+                        "C++",
+                        "Java"
+                    ],
+                    "formations": [
+                        "Licence Informatique",
+                        "Master Informatique"
+                    ]
+                },
+                {
+                    "personne": {
+                        "nom": "Dupont",
+                        "prenom": "Jean",
+                        "telephone": "0123456789"
+                    },
+                    "mail": "   ",
+                    "linkedin": "https://www.linkedin.com/in/jean-dupont",
+                    "github": "github.com/jeandupont",
+                    "competences": [
+                        "C",
+                        "C++",
+                        "Java"
+                    ],
+                    "formations": [
+                        "Licence Informatique",
+                        "Master Informatique"
+                    ]
+                }
+            ]
+        }
+    }
+}
+
+
+var RepPersFromForma = {
+    "reponse": {
+        "type": "RepPersFromForma",
+        "envoyeur": {
+            "id": "REP2",
+            "auteur": "Blabla",
+            "date": "2015-01-01"
+        },
+        "destinataire": "Bloblo",
+        "personnes": [
+            {
+                "nom": "Hauf",
+                "prenom": "Jocelyn",
+                "telephone": "0123456789"
+            },
+            {
+                "nom": "Dupont",
+                "prenom": "Jean",
+                "telephone": "0123456789"
+            }
+        ]
+    }
+}

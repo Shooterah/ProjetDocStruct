@@ -1,0 +1,80 @@
+
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE reponse SYSTEM "reponse.dtd">
+<reponse type="RepCompFromCv">
+    <envoyeur>
+        <id>REP1</id>
+        <auteur>...</auteur>
+        <date>...</date>
+    </envoyeur>
+    <destinataire>...</destinataire>
+    <CVS nb=2>
+        <CV>
+            <personne>
+                <nom>...</nom>
+                <prenom>...</prenom>
+                <telephone>...</telephone>
+            </personne>
+            <mail>...</mail>
+            <linkedin>...</linkedin>
+            <github>...</github>
+            <competences>
+                <competence>...</competence>
+                <competence>...</competence>
+                <competence>...</competence>
+                <competence>...</competence>
+            </competences>
+            <formations>
+                <formation>...</formation>
+                <formation>...</formation>
+                <formation>...</formation>
+                <formation>...</formation>
+            </formations>
+        </CV>
+        <CV>
+            <personne>
+                <nom>...</nom>
+                <prenom>...</prenom>
+                <telephone>...</telephone>
+            </personne>
+            <mail>...</mail>
+            <linkedin>...</linkedin>
+            <github>...</github>
+            <competences>
+                <competence>...</competence>
+                <competence>...</competence>
+                <competence>...</competence>
+                <competence>...</competence>
+            </competences>
+            <formations>
+                <formation>...</formation>
+                <formation>...</formation>
+                <formation>...</formation>
+                <formation>...</formation>
+            </formations>
+        </CV>
+    </CVS>
+</reponse>
+
+
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE reponse SYSTEM "reponse.dtd">
+<reponse type="RepPersFromForma">
+    <envoyeur>
+        <id>REP2</id>
+        <auteur>...</auteur>
+        <date>...</date>
+    </envoyeur>
+    <destinataire>...</destinataire>
+    <personnes>
+        <personne>
+            <nom>...</nom>
+            <prenom>...</prenom>
+            <telephone>...</telephone>
+        </personne>
+        <personne>
+            ...
+        </personne>
+        ...
+    </personnes>
+</reponse>

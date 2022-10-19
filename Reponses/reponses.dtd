@@ -1,0 +1,22 @@
+<!ELEMENT reponse (envoyeur,destinataire,CVS)>
+<!ATTLIST reponse type (RepCompFromCv | RepPersFromForma) #REQUIRED>
+<!ELEMENT envoyeur (id, auteur, date)>
+<!ELEMENT destinataire (#PCDATA) #REQUIRED>
+<!ELEMENT id (#PCDATA)>
+<!ELEMENT auteur (#PCDATA)>
+<!ELEMENT date (#PCDATA)>
+<!ELEMENT CVS (CV*)>
+<!ELEMENT CV (personne, mail, linkedin, github, competences, formations)>
+<!ELEMENT personne (nom, prenom, telephone)>
+<!ELEMENT nom (#PCDATA)>
+<!ELEMENT prenom (#PCDATA)>
+<!ELEMENT telephone (#PCDATA)>
+<!ELEMENT mail (#PCDATA)>
+<!ELEMENT linkedin (#PCDATA)>
+<!ELEMENT github (#PCDATA)>
+<!ELEMENT competences (competence*)>
+<!ELEMENT competence (#PCDATA)>
+<!ELEMENT formations (formation*)>
+<!ELEMENT formation (#PCDATA)>
+
+

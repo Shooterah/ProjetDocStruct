@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+    <xs:element name="question">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="envoyeur" type="envoyeurType"/>
+                <xs:choice>
+                    <xs:element name="competences" type="competencesType"/>
+                    <xs:element name="formations" type="formationsType"/>
+                </xs:choice>
+            </xs:sequence>
+            <xs:attribute name="type" type="xs:string" use="required"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:complexType name="envoyeurType">
+        <xs:sequence>
+            <xs:element name="id" type="xs:integer"/>
+            <xs:element name="auteur" type="xs:string"/>
+            <xs:element name="date" type="xs:date"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="competencesType">
+        <xs:sequence>
+            <xs:element name="competence" type="xs:string" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="formationsType">
+        <xs:sequence>
+            <xs:element name="formation" type="xs:string" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+</xs:schema>
