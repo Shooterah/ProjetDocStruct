@@ -3,7 +3,7 @@
 
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE question SYSTEM "questions.dtd">
-<question type="CompFromCv">
+<question typeQuestion="CompFromCv">
     <envoyeur>
         <id>1</id>
         <auteur>...</auteur>
@@ -19,7 +19,7 @@
 
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE question SYSTEM "questions.dtd">
-<question type="PersFromForma">
+<question typeQuestion="PersFromForma">
     <envoyeur>
         <id>2</id>
         <auteur>...</auteur>

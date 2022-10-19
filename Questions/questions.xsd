@@ -9,7 +9,7 @@
                     <xs:element name="formations" type="formationsType"/>
                 </xs:choice>
             </xs:sequence>
-            <xs:attribute name="type" type="xs:string" use="required"/>
+            <xs:attribute name="typeQuestion" type="xs:string" use="required"/>
         </xs:complexType>
     </xs:element>
     <xs:complexType name="envoyeurType">

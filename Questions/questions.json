@@ -1,7 +1,7 @@
 
 var questionCompFromCv = {
     "question" {
-        "-type" : "CompFromCv",
+        "-typeQuestion" : "CompFromCv",
         "envoyeur": {
             "id" : "1",
             "auteur" : "Truc",
@@ -18,7 +18,7 @@ var questionCompFromCv = {
 
 var questionPersFromForma = {
     "question" {
-        "-type" : "PersFromForma",
+        "-typeQuestion" : "PersFromForma",
         "envoyeur": {
             "id" : "2",
             "auteur" : "Truc",

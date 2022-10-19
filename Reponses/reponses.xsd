@@ -10,7 +10,7 @@
                         <xs:element name="CVS" type="CVSType"/>
                     </xs:choice>
             </xs:sequence>
-            <xs:attribute name="type" type="xs:string" use="required"/>
+            <xs:attribute name="typeReponse" type="xs:string" use="required"/>
         </xs:complexType>
     </xs:element>
     <xs:complexType name="envoyeurType">

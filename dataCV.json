@@ -1,0 +1,63 @@
+
+var CVS = {
+    "cv": [
+        {
+            "personne": {
+                "nom": "Florian",
+                "prenom": "Doffemont",
+                "telephone": "0695612532"
+            },
+            "mail": "florian.doffemont@etu.univ-st-etienne.fr",
+            "linkedin": "https://www.linkedin.com/in/floriandoffemont/",
+            "github": "https://github.com/Shooterah",
+            "competences": [
+                {
+                    "nom": "HTML"
+                },
+                {
+                    "nom": "CSS"
+                },
+                {
+                    "nom": "JavaScript"
+                }
+            ],
+            "formations": [
+                {
+                    "nom": "Licence Informatique"
+                },
+                {
+                    "nom": "DUT GEII"
+                }
+            ]
+        },
+        {
+            "personne": {
+                "nom": "Jeoffrey",
+                "prenom": "Pereira",
+                "telephone": "0755800268"
+            },
+            "mail": "jeoffrey.pereira@etu.univ-st-etienne.fr",
+            "linkedin": "https://www.linkedin.com/in/jeoffrey-pereira/",
+            "github": "https://github.com/Jeoffrey42",
+            "competences": [
+                {
+                    "nom": "HTML"
+                },
+                {
+                    "nom": "CSS"
+                },
+                {
+                    "nom": "JavaScript"
+                }
+            ],
+            "formations": [
+                {
+                    "nom": "BTS SIO"
+                },
+                {
+                    "nom": "Licence Pro"
+                }
+            ]
+        }
+    ]
+};

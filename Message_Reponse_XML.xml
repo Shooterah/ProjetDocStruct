@@ -1,0 +1,80 @@
+
+
+<!-- XML qui simule une requête de toutes les infos des CV en fonction d'une competence -->
+
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE Questions SYSTEM "Questions/questions.dtd">
+<Question>
+    <Capsule>
+        <id>1</id>
+        <Sujet>...</Sujet>
+        <Autheur>...</Autheur>
+        <Date>...</Date>
+    </Capsule>
+    <CVS>
+        <competences>
+            <competence>...</competence>
+            <competence>...</competence>
+        </competences>
+    </CVS>
+</Question>
+
+<!-- Exemple de réponse : -->
+
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE CV SYSTEM "dataCV.dtd">
+<CVS nb=2>
+    <CV>
+        <personne>
+            <nom>...</nom>
+            <prenom>...</prenom>
+            <telephone>...</telephone>
+        </personne>
+        <mail>...</mail>
+        <linkedin>...</linkedin>
+        <github>...</github>
+        <competences>
+            <competence>...</competence>
+            <competence>...</competence>
+            <competence>...</competence>
+            <competence>...</competence>
+        </competences>
+        <formations>
+            <formation>...</formation>
+            <formation>...</formation>
+            <formation>...</formation>
+            <formation>...</formation>
+        </formations>
+    </CV>
+    <CV>
+        ...
+    </CV>
+    ...
+</CVS>
+
+
+
+<!-- XML qui simule une requête de toutes personnes en fonction d'une formation -->
+
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE CV SYSTEM "dataCV.dtd">
+<personne>
+    <formation>...</formation>
+</personne>
+
+<!-- Exemple de réponse : -->
+
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE CV SYSTEM "dataCV.dtd">
+<personnes>
+    <personne>
+        <nom>...</nom>
+        <prenom>...</prenom>
+        <telephone>...</telephone>
+    </personne>
+    <personne>
+        ...
+    </personne>
+    ...
+</personnes>
+

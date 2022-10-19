@@ -1,7 +1,7 @@
 
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE reponse SYSTEM "reponse.dtd">
-<reponse type="RepCompFromCv">
+<reponse typeReponse="RepCompFromCv">
     <envoyeur>
         <id>REP1</id>
         <auteur>...</auteur>
@@ -59,7 +59,7 @@
 
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE reponse SYSTEM "reponse.dtd">
-<reponse type="RepPersFromForma">
+<reponse typeReponse="RepPersFromForma">
     <envoyeur>
         <id>REP2</id>
         <auteur>...</auteur>

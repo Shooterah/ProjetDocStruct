@@ -1,5 +1,5 @@
 <!ELEMENT reponse (envoyeur,destinataire,CVS)>
-<!ATTLIST reponse type (RepCompFromCv | RepPersFromForma) #REQUIRED>
+<!ATTLIST reponse typeReponse (RepCompFromCv | RepPersFromForma) #REQUIRED>
 <!ELEMENT envoyeur (id, auteur, date)>
 <!ELEMENT destinataire (#PCDATA) #REQUIRED>
 <!ELEMENT id (#PCDATA)>
