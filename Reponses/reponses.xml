@@ -4,53 +4,47 @@
 <reponse typeReponse="RepCompFromCv">
     <envoyeur>
         <id>REP1</id>
-        <auteur>...</auteur>
-        <date>...</date>
+        <auteur>pedro</auteur>
+        <date>19/10/2022</date>
     </envoyeur>
-    <destinataire>...</destinataire>
+    <destinataire>magalie</destinataire>
     <CVS nb=2>
         <CV>
             <personne>
-                <nom>...</nom>
-                <prenom>...</prenom>
-                <telephone>...</telephone>
+                <nom>Dasilva</nom>
+                <prenom>Miguel</prenom>
+                <telephone>0680469872</telephone>
             </personne>
-            <mail>...</mail>
-            <linkedin>...</linkedin>
-            <github>...</github>
+            <mail>Dasilva.Miguel@gmail.com</mail>
+            <linkedin>linkedin/Dasilva.Miguel</linkedin>
+            <github>github/Dasilva.Miguel</github>
             <competences>
-                <competence>...</competence>
-                <competence>...</competence>
-                <competence>...</competence>
-                <competence>...</competence>
+                <competence>Maçon</competence>
+                <competence>Java</competence>
+                <competence>Comique</competence>
             </competences>
             <formations>
-                <formation>...</formation>
-                <formation>...</formation>
-                <formation>...</formation>
-                <formation>...</formation>
+                <formation>licence informatique</formation>
+                <formation>Bac pro BTP</formation>
             </formations>
         </CV>
         <CV>
             <personne>
-                <nom>...</nom>
-                <prenom>...</prenom>
-                <telephone>...</telephone>
+                <nom>Leduc</nom>
+                <prenom>Gerard</prenom>
+                <telephone>0423568410</telephone>
             </personne>
-            <mail>...</mail>
-            <linkedin>...</linkedin>
-            <github>...</github>
+            <mail>Leduc.Gerard@gmail.com</mail>
+            <linkedin>linkedin/Leduc.Gerard</linkedin>
+            <github>github/Leduc.Gerard</github>
             <competences>
-                <competence>...</competence>
-                <competence>...</competence>
-                <competence>...</competence>
-                <competence>...</competence>
+                <competence>JavaScript</competence>
+                <competence>Sql</competence>
+                <competence>C</competence>
+                <competence>Python</competence>
             </competences>
             <formations>
-                <formation>...</formation>
-                <formation>...</formation>
-                <formation>...</formation>
-                <formation>...</formation>
+                <formation>Ecole de la vie</formation>
             </formations>
         </CV>
     </CVS>
@@ -62,19 +56,15 @@
 <reponse typeReponse="RepPersFromForma">
     <envoyeur>
         <id>REP2</id>
-        <auteur>...</auteur>
-        <date>...</date>
+        <auteur>pedro</auteur>
+        <date>19/10/2004</date>
     </envoyeur>
-    <destinataire>...</destinataire>
+    <destinataire>lorainne</destinataire>
     <personnes nb=2>
         <personne>
-            <nom>...</nom>
-            <prenom>...</prenom>
-            <telephone>...</telephone>
+            <nom>Leduc</nom>
+            <prenom>Gerard</prenom>
+            <telephone>0423568410</telephone>
         </personne>
-        <personne>
-            ...
-        </personne>
-        ...
     </personnes>
 </reponse>

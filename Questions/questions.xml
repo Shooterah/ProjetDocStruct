@@ -6,12 +6,12 @@
 <question typeQuestion="CompFromCv">
     <envoyeur>
         <id>1</id>
-        <auteur>...</auteur>
-        <date>...</date>
+        <auteur>magalie</auteur>
+        <date>19/10/2022</date>
     </envoyeur>
     <competences>
-        <competence>...</competence>
-        <competence>...</competence>
+        <competence>Java</competence>
+        <competence>C</competence>
     </competences>
 </question>
 
@@ -22,11 +22,10 @@
 <question typeQuestion="PersFromForma">
     <envoyeur>
         <id>2</id>
-        <auteur>...</auteur>
-        <date>...</date>
+        <auteur>lorainne</auteur>
+        <date>19/10/2004</date>
     </envoyeur>
     <formations>
-        <formation>...</formation>
-        <formation>...</formation>
+        <formation>Ecole de la vie</formation>
     </formations>
 </question>
