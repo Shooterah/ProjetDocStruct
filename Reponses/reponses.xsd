@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+    <xs:element name="reponses">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="envoyeur" type="envoyeurType"/>
+                <xs:element name="destinataire" type="destinataireType"/>
+                    <xs:choice>
+                        <xs:element name="personnes" type="personnesType"/>
+                        <xs:element name="CVS" type="CVSType"/>
+                    </xs:choice>
+            </xs:sequence>
+            <xs:attribute name="type" type="xs:string" use="required"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:complexType name="envoyeurType">
+        <xs:sequence>
+            <xs:element name="id" type="xs:integer"/>
+            <xs:element name="auteur" type="xs:string"/>
+            <xs:element name="date" type="xs:date"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="competencesType">
+        <xs:sequence>
+            <xs:element name="competence" type="xs:string" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="formationsType">
+        <xs:sequence>
+            <xs:element name="formation" type="xs:string" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="personneType" >
+        <xs:sequence>
+            <xs:element name="nom" type="xs:string" maxOccurs="unbounded"/>
+            <xs:element name="prenom" type="xs:string" maxOccurs="unbounded"/>
+            <xs:element name="telephone" type="xs:string" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="personnesType" >
+        <xs:sequence>
+            <xs:element name="personne" type="personneType" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="CVSType">
+        <xs:sequence>
+            <xs:element name="CV" type="CVType" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="CVType">
+        <xs:sequence>
+            <xs:element name="personne" type="personneType" maxOccurs="1"/>
+            <xs:element name="mail" type="xs:string" maxOccurs="1"/>
+            <xs:element name="linkedin" type="xs:string" maxOccurs="1"/>
+            <xs:element name="github" type="xs:string" maxOccurs="1"/>
+            <xs:element name="competences" type="competencesType" maxOccurs="1"/>
+            <xs:element name="formations" type="formationsType" maxOccurs="1"/>
+        </xs:sequence>
+    </xs:complexType>
+</xs:schema>

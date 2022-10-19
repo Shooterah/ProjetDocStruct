@@ -1,7 +1,7 @@
 
 var RepCompFromCv = {
     "reponse": {
-        "type": "RepCompFromCv",
+        "-type": "RepCompFromCv",
         "envoyeur": {
             "id": "REP1",
             "auteur": "Truc",
@@ -9,7 +9,7 @@ var RepCompFromCv = {
         },
         "destinataire": "Machin",
         "CVS": {
-            "nb": 2,
+            "-nb": 2,
             "CV": [
                 {
                     "personne": {
@@ -57,24 +57,27 @@ var RepCompFromCv = {
 
 var RepPersFromForma = {
     "reponse": {
-        "type": "RepPersFromForma",
+        "-type": "RepPersFromForma",
         "envoyeur": {
             "id": "REP2",
             "auteur": "Blabla",
             "date": "2015-01-01"
         },
         "destinataire": "Bloblo",
-        "personnes": [
-            {
-                "nom": "Hauf",
-                "prenom": "Jocelyn",
-                "telephone": "0123456789"
-            },
-            {
-                "nom": "Dupont",
-                "prenom": "Jean",
-                "telephone": "0123456789"
-            }
-        ]
+        "personnes": {
+            "-nb": 2,
+            [
+                {
+                    "nom": "Hauf",
+                    "prenom": "Jocelyn",
+                    "telephone": "0123456789"
+                },
+                {
+                    "nom": "Dupont",
+                    "prenom": "Jean",
+                    "telephone": "0123456789"
+                }
+            ]
+        }
     }
 }
