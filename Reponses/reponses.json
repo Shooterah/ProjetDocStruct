@@ -1,7 +1,7 @@
 
-var RepCompFromCv = {
+RepCompFromCv = {
     "reponse": {
-        "-typeReponse": "RepCompFromCv",
+        "typeReponse": "RepCompFromCv",
         "envoyeur": {
             "id": "REP1",
             "auteur": "Truc",
@@ -9,7 +9,7 @@ var RepCompFromCv = {
         },
         "destinataire": "Machin",
         "CVS": {
-            "-nb": 2,
+            "nb": 2,
             "CV": [
                 {
                     "personne": {
@@ -55,9 +55,9 @@ var RepCompFromCv = {
 }
 
 
-var RepPersFromForma = {
+RepPersFromForma = {
     "reponse": {
-        "-typeReponse": "RepPersFromForma",
+        "typeReponse": "RepPersFromForma",
         "envoyeur": {
             "id": "REP2",
             "auteur": "Blabla",
@@ -65,7 +65,7 @@ var RepPersFromForma = {
         },
         "destinataire": "Bloblo",
         "personnes": {
-            "-nb": 2,
+            "nb": 2,
             [
                 {
                     "nom": "Hauf",
