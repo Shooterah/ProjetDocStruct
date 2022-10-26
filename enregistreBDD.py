@@ -21,3 +21,20 @@ def sendToDB(prenom, nom, mail, linkedin, github, diplome, tel, competence):
             cursor.close()
             db.close()
             print("MySQL connection is closed")
+
+# fonction qui lit le fichier xml qui contient les données d'un cv
+
+
+def readXML():
+    tree = ET.parse('cv.xml')
+    root = tree.getroot()
+    for child in root:
+        prenom = child.find('prenom').text
+        nom = child.find('nom').text
+        mail = child.find('mail').text
+        linkedin = child.find('linkedin').text
+        github = child.find('github').text
+        diplome = child.find('diplome').text
+        tel = child.find('tel').text
+        for competance in child.findall('competances'):
+            competence = competance.text

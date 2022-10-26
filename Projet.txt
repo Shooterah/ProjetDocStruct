@@ -30,3 +30,14 @@ A faire pour le 19 :
 
     - definir le dialogue entre application tierce et la BDD (XML et JSON)
     - Ecrire DTD, XSD, JSON Schema des messages
+
+
+********************************************************************************************************************************************
+
+Tâche :
+	- Créer la BDD sur MySQL
+	- Créer .py pour stocker les infos issue des CV dans la BDD (Programme Injection)
+	- Créer une interface, avec des bouton qui envois des XML ou JSON prédéfinis. (Programme Métier)
+	- Créer un programme qui tranforme en requête SQL et l'envois a la BDD (Programme Serveur)
+	- Continuer le programme Serveur, pour qu'il "traduire" la réponse de la BDD (Prog Serveur) 
+	- Afficher la réponse sur l'interface (Traduire le XML ou JSON) (Programme Métier)
