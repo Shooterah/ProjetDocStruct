@@ -1,16 +1,16 @@
 # Function that send data to a database (MySQL)
 
-def sendToDB(prenom, nom, mail, linkedin, github, diplome, tel, competence):
+def sendToDB(prenom, nom, mail,tel, linkedin, github):
     try:
         db = mysql.connector.connect(
             host="localhost",
             user="root",
             passwd="",
-            database="cv"
+            database="docstruc"
         )
         cursor = db.cursor()
-        sql = "INSERT INTO cv (prenom, nom, mail, linkedin, github, diplome, tel, competence) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)"
-        val = (prenom, nom, mail, linkedin, github, diplome, tel, competence)
+        sql = "INSERT INTO candidats(Nom, Prenom, Mail, Tel, Linkedin, Github) VALUES (%s, %s, %s, %s, %s, %s,)"
+        val = (nom, prenom, mail, tel, linkedin, github)
         cursor.execute(sql, val)
         db.commit()
         print(cursor.rowcount, "record inserted.")

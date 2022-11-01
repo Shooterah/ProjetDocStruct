@@ -1,6 +1,7 @@
 from multiprocessing.connection import wait
 from time import sleep
 from turtle import clear
+import MySQLdb
 import pdfplumber
 import json
 import requests
@@ -180,5 +181,65 @@ def afficheCV():
                 listeCompétenceTmp.clear()
                 ListeNuméroTypeTmp.clear()
 
+def CvtoDB(cursor,db):
+     for cv in getCV():
+        with pdfplumber.open("CV/PDF/" + cv) as pdf:
+            for page in pdf.pages:
+                text = page.extract_text()
+                getDataTelNumber(text)
+                mail = getDataMail(text)
+                prenom, nom = getPrenomNom(text)
+                linkedin = getLinkedin(text)
+                github = getGithub(text)
+                getDataCompetence(text)
+                sendToDB(cursor,db,prenom, nom, mail,ListeNuméroTypeTmp, linkedin, github,listeCompétenceTmp)
+                listeCompétenceTmp.clear()
+                ListeNuméroTypeTmp.clear()
 
-afficheCV()
+def ConnectDB():
+    try:
+        db = MySQLdb.connect(host="localhost", user="root",passwd="",database="docstruc")
+        cursor = db.cursor()
+    except MySQLdb.Error as error:
+        print("Failed to connect to Database{}".format(error))
+    finally:
+        print("Connected to the database")
+        return db,cursor
+
+def DisconnectDB(cursor,db):
+    try: 
+        if (db):
+            cursor.close()
+            db.close()
+    except MySQLdb.Error as error:
+        print("Database is not Connected{}".format(error))
+    finally:
+        print("MySQL connection is closed")
+
+
+def sendToDB(cursor,db,prenom, nom, mail,ListeNuméroTypeTmp, linkedin, github,listeCompétenceTmp):
+    try:
+        sql1 = "INSERT INTO candidats(Nom, Prenom, Mail, Tel, Linkedin, Github) VALUES (%s, %s, %s, %s, %s, %s)"
+        val = (nom, prenom, mail,str(ListeNuméroTypeTmp[0]), linkedin, github)
+        cursor.execute(sql1, val)
+        id = db.insert_id()
+        db.commit()
+
+        for comp in listeCompétenceTmp:
+            sql2 = "SELECT idcomp FROM competences WHERE NomComp LIKE '"+str(comp)+"'"
+            cursor.execute(sql2)
+            res = cursor.fetchone()
+            sql3 = "INSERT INTO candiComp(idcand, idcomp) VALUES (%s, %s)"
+            val = (id,res[0])
+            cursor.execute(sql3, val)
+            db.commit()
+
+    except MySQLdb.Error as error:
+        print("Failed to insert record into MySQL table {}".format(error))
+    finally:
+        print("Insert "+prenom+" Successful")
+
+
+db,cursor = ConnectDB()
+CvtoDB(cursor,db)
+DisconnectDB(cursor,db)
