@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le : mar. 01 nov. 2022 à 22:56
+-- Généré le : mer. 02 nov. 2022 à 09:48
 -- Version du serveur : 5.7.36
 -- Version de PHP : 7.4.26
 
@@ -35,7 +35,63 @@ CREATE TABLE IF NOT EXISTS `candicomp` (
   PRIMARY KEY (`idCC`),
   KEY `idCand` (`idCand`),
   KEY `idComp` (`idComp`)
-) ENGINE=MyISAM AUTO_INCREMENT=51 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=101 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Déchargement des données de la table `candicomp`
+--
+
+INSERT INTO `candicomp` (`idCC`, `idCand`, `idComp`) VALUES
+(100, 16, 1),
+(99, 16, 20),
+(98, 16, 21),
+(97, 16, 3),
+(96, 16, 8),
+(95, 16, 14),
+(94, 16, 13),
+(93, 16, 2),
+(92, 15, 14),
+(91, 15, 7),
+(90, 15, 1),
+(89, 15, 20),
+(88, 15, 19),
+(87, 15, 21),
+(86, 15, 13),
+(85, 15, 2),
+(84, 14, 14),
+(83, 14, 13),
+(82, 14, 2),
+(81, 13, 3),
+(80, 13, 1),
+(79, 13, 20),
+(78, 13, 8),
+(77, 13, 14),
+(76, 13, 13),
+(75, 13, 2),
+(74, 12, 14),
+(73, 12, 13),
+(72, 12, 2),
+(71, 11, 1),
+(70, 11, 20),
+(69, 11, 21),
+(68, 11, 3),
+(67, 11, 8),
+(66, 11, 14),
+(65, 11, 13),
+(64, 11, 2),
+(63, 10, 21),
+(62, 10, 20),
+(61, 10, 3),
+(60, 10, 1),
+(59, 10, 18),
+(58, 10, 13),
+(57, 10, 8),
+(56, 10, 2),
+(55, 9, 21),
+(54, 9, 20),
+(53, 9, 19),
+(52, 9, 1),
+(51, 9, 2);
 
 -- --------------------------------------------------------
 
@@ -53,7 +109,21 @@ CREATE TABLE IF NOT EXISTS `candidats` (
   `Linkedin` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `Github` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`idCand`)
-) ENGINE=MyISAM AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=17 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Déchargement des données de la table `candidats`
+--
+
+INSERT INTO `candidats` (`idCand`, `Nom`, `Prenom`, `Mail`, `Tel`, `Linkedin`, `Github`) VALUES
+(15, 'Monnet', 'Jean', 'jeoffrey.pereira@live.fr', '0755800268', 'www.linkedin.com/in/jeoffre', NULL),
+(14, 'Brun,', 'Emmanuel', 'jocelyn.hauf@gmail.com', '0695140092', NULL, NULL),
+(13, 'Né', 'Jocelyn', 'jocelyn.hauf@gmail.com', '0695140092', NULL, NULL),
+(12, 'Formations', 'Jocelyn', 'jocelyn.hauf@gmail.com', '0695140092', NULL, NULL),
+(11, 'En', 'Jocelyn', 'jocelyn.hauf@gmail.com', '0695140092', NULL, NULL),
+(10, 'E´tudiant', 'Ian', 'riviere.ian@free.fr', '076812060696', 'https://www.linkedin.com/in/riverian2/', 'https://github.com/Mic-Firapat'),
+(9, '20', 'Arthur', 'arthurmicol@gmail.com', '0770728992', NULL, NULL),
+(16, 'En', 'Jocelyn', 'jocelyn.hauf@gmail.com', '0695140092', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -69,7 +139,26 @@ CREATE TABLE IF NOT EXISTS `candiform` (
   PRIMARY KEY (`idCF`),
   KEY `idCand` (`idCand`),
   KEY `idform` (`idform`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Déchargement des données de la table `candiform`
+--
+
+INSERT INTO `candiform` (`idCF`, `idCand`, `idform`) VALUES
+(1, 9, 4),
+(2, 10, 2),
+(3, 10, 1),
+(4, 11, 2),
+(5, 11, 1),
+(6, 12, 1),
+(7, 12, 2),
+(8, 13, 1),
+(9, 15, 1),
+(10, 15, 4),
+(11, 15, 6),
+(12, 16, 2),
+(13, 16, 1);
 
 -- --------------------------------------------------------
 
@@ -123,7 +212,22 @@ CREATE TABLE IF NOT EXISTS `formations` (
   `idForm` int(11) NOT NULL AUTO_INCREMENT,
   `NomForm` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`idForm`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Déchargement des données de la table `formations`
+--
+
+INSERT INTO `formations` (`idForm`, `NomForm`) VALUES
+(1, 'Licence'),
+(2, 'Master'),
+(3, 'Doctorat'),
+(4, 'DUT'),
+(5, 'BTS'),
+(6, 'BAC'),
+(7, 'Brevet'),
+(8, 'CAP'),
+(9, 'BEP');
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
