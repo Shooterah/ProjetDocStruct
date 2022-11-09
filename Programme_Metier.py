@@ -1,26 +1,29 @@
 import MySQLdb
 from tkinter import *
 from functools import partial
-import xml.dom.minidom 
+import xml.dom.minidom
 from datetime import datetime
 import socket
 
 listcomp = []
 listforma = []
-listQuestion =[]
+listQuestion = []
+
 
 def ConnectDB():
     try:
-        db = MySQLdb.connect(host="localhost", user="root",passwd="",database="docstruc")
+        db = MySQLdb.connect(host="localhost", user="root",
+                             passwd="", database="docstruc")
         cursor = db.cursor()
     except MySQLdb.Error as error:
         print("Failed to connect to Database{}".format(error))
     finally:
         print("Connected to the database")
-        return db,cursor
+        return db, cursor
 
-def DisconnectDB(cursor,db):
-    try: 
+
+def DisconnectDB(cursor, db):
+    try:
         if (db):
             cursor.close()
             db.close()
@@ -30,19 +33,21 @@ def DisconnectDB(cursor,db):
         print("MySQL connection is closed")
 
 
-def ListeCompFromBase(cursor,listcomp):
-   sql2 = "SELECT NomComp FROM competences"
-   cursor.execute(sql2)
-   res = cursor.fetchall()
-   for line in res:
-     listcomp.append(line[0])
+def ListeCompFromBase(cursor, listcomp):
+    sql2 = "SELECT NomComp FROM competences"
+    cursor.execute(sql2)
+    res = cursor.fetchall()
+    for line in res:
+        listcomp.append(line[0])
 
-def ListeFormaFromBase(cursor,listforma):
-   sql2 = "SELECT NomForm FROM formations"
-   cursor.execute(sql2)
-   res = cursor.fetchall()
-   for line in res:
-     listforma.append(line[0])
+
+def ListeFormaFromBase(cursor, listforma):
+    sql2 = "SELECT NomForm FROM formations"
+    cursor.execute(sql2)
+    res = cursor.fetchall()
+    for line in res:
+        listforma.append(line[0])
+
 
 def CreationXMLComp(listQuestion):
 
@@ -79,7 +84,6 @@ def CreationXMLComp(listQuestion):
     tree.appendChild(competences)
 
     print(doc.toprettyxml())
-
 
 
 def CreationXMLForm(listQuestion):
@@ -119,26 +123,29 @@ def CreationXMLForm(listQuestion):
     print(doc.toprettyxml())
 
 
-
 def selected_comp(list):
     SelectList = list.curselection()
     for i in SelectList:
-       listQuestion.append(list.get(i))
-       CreationXMLComp(listQuestion)
-       listQuestion.clear
+        listQuestion.append(list.get(i))
+    CreationXMLComp(listQuestion)
+    listQuestion.clear()
+    # cancel selection of the list
+    list.selection_clear(0, END)
+
 
 def selected_form(list):
     SelectList = list.curselection()
     for i in SelectList:
-       listQuestion.append(list.get(i))
-       CreationXMLForm(listQuestion)
-       listQuestion.clear
+        listQuestion.append(list.get(i))
+    CreationXMLForm(listQuestion)
+    listQuestion.clear()
+    list.selection_clear(0, END)
 
 
-db,cursor = ConnectDB()
-ListeCompFromBase(cursor,listcomp)
-ListeFormaFromBase(cursor,listforma)
-DisconnectDB(cursor,db)
+db, cursor = ConnectDB()
+ListeCompFromBase(cursor, listcomp)
+ListeFormaFromBase(cursor, listforma)
+DisconnectDB(cursor, db)
 
 
 window = Tk()
@@ -149,50 +156,55 @@ xmax = window.winfo_height()
 ymax = window.winfo_width()
 
 frame_left_top = Frame(window, bg="#8BC49A", bd=1, relief=SUNKEN)
-frame_left_top.pack(side=LEFT,expand=YES,fill=Y,anchor=NW)
+frame_left_top.pack(side=LEFT, expand=YES, fill=Y, anchor=NW)
 
 frame_right_top = Frame(window, bg="#8BC49A", bd=1, relief=SUNKEN)
-frame_right_top.pack(side=RIGHT,expand=YES,fill=Y,anchor=NE)
+frame_right_top.pack(side=RIGHT, expand=YES, fill=Y, anchor=NE)
 
 frame_left_middle = Frame(window, bg="#528860", bd=1, relief=SUNKEN)
-frame_left_middle.pack(side=TOP,ipadx=500,ipady=500,fill=Y)
+frame_left_middle.pack(side=TOP, ipadx=500, ipady=500, fill=Y)
 
 yscrollbar1 = Scrollbar(frame_left_top)
-yscrollbar1.pack(side = RIGHT, fill = Y)
+yscrollbar1.pack(side=RIGHT, fill=Y)
 yscrollbar2 = Scrollbar(frame_right_top)
-yscrollbar2.pack(side = LEFT, fill = Y)
+yscrollbar2.pack(side=LEFT, fill=Y)
 
-label1 = Label(frame_left_top,text = "Demande des infos CV en fonction des compétences",font = ("Times New Roman", 10), padx = 10, pady = 10)
-label2 = Label(frame_right_top,text = "Demande des infos personnes en fonction des formations",font = ("Times New Roman", 10), padx = 10, pady = 10)
-label3 = Label(frame_left_middle,text = "Resultats",font = ("Times New Roman", 10),padx = 2000, pady = 10)
+label1 = Label(frame_left_top, text="Demande des infos CV en fonction des compétences", font=(
+    "Times New Roman", 10), padx=10, pady=10)
+label2 = Label(frame_right_top, text="Demande des infos personnes en fonction des formations", font=(
+    "Times New Roman", 10), padx=10, pady=10)
+label3 = Label(frame_left_middle, text="Resultats", font=(
+    "Times New Roman", 10), padx=2000, pady=10)
 label1.pack()
 label2.pack()
-label3.pack(side = TOP)
+label3.pack(side=TOP)
 
-list1 = Listbox(frame_left_top, selectmode = MULTIPLE, yscrollcommand = yscrollbar1.set)
-list2 = Listbox(frame_right_top, selectmode = MULTIPLE, yscrollcommand = yscrollbar2.set)
+list1 = Listbox(frame_left_top, selectmode=MULTIPLE,
+                yscrollcommand=yscrollbar1.set)
+list2 = Listbox(frame_right_top, selectmode=MULTIPLE,
+                yscrollcommand=yscrollbar2.set)
 
-action_l1 = partial(selected_comp,list1)
-action_l2 = partial(selected_form,list2)
+action_l1 = partial(selected_comp, list1)
+action_l2 = partial(selected_form, list2)
 
-B1 = Button(frame_left_top, text ="Recherche CV", command = action_l1)
-B1.pack(padx=20,pady=20)
-B2 = Button(frame_right_top, text ="Recherche Personnes", command = action_l2)
-B2.pack(padx=20,pady=20)
+B1 = Button(frame_left_top, text="Recherche CV", command=action_l1)
+B1.pack(padx=20, pady=20)
+B2 = Button(frame_right_top, text="Recherche Personnes", command=action_l2)
+B2.pack(padx=20, pady=20)
 
-list1.pack(padx = 10, pady = 10,expand=YES, fill = "both")
-list2.pack(padx = 10, pady = 10,expand=YES, fill = "both")
-  
+list1.pack(padx=10, pady=10, expand=YES, fill="both")
+list2.pack(padx=10, pady=10, expand=YES, fill="both")
+
 for comp_item in range(len(listcomp)):
     list1.insert(END, listcomp[comp_item])
-    list1.itemconfig(comp_item, bg = "gray")
+    list1.itemconfig(comp_item, bg="gray")
 
 for form_item in range(len(listforma)):
     list2.insert(END, listforma[form_item])
-    list2.itemconfig(form_item, bg = "gray")
+    list2.itemconfig(form_item, bg="gray")
 
-yscrollbar1.config(command = list1.yview)
-yscrollbar2.config(command = list2.yview)
+yscrollbar1.config(command=list1.yview)
+yscrollbar2.config(command=list2.yview)
 
 
 window.mainloop()
