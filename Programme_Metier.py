@@ -4,10 +4,12 @@ from functools import partial
 import xml.dom.minidom
 from datetime import datetime
 import socket
+import os
 
 listcomp = []
 listforma = []
 listQuestion = []
+idfile = 0
 
 
 def ConnectDB():
@@ -49,7 +51,7 @@ def ListeFormaFromBase(cursor, listforma):
         listforma.append(line[0])
 
 
-def CreationXMLComp(listQuestion):
+def CreationXMLComp(listQuestion, namefile):
 
     doc = xml.dom.minidom.parseString("<question/>")
     tree = doc.documentElement
@@ -83,11 +85,14 @@ def CreationXMLComp(listQuestion):
         competences.appendChild(competence)
     tree.appendChild(competences)
 
-    print(doc.toprettyxml())
+    # crée un fichier de nom namefile
+    myFile = open("Questions/"+namefile, "w+")
+    myFile.write(doc.toprettyxml())
+
+    # print(doc.toprettyxml())
 
 
-def CreationXMLForm(listQuestion):
-
+def CreationXMLForm(listQuestion, namefile):
     doc = xml.dom.minidom.parseString("<question/>")
     tree = doc.documentElement
     tree.setAttribute("typeQuestion", "PersFromForma")
@@ -120,24 +125,35 @@ def CreationXMLForm(listQuestion):
         formations.appendChild(formation)
     tree.appendChild(formations)
 
-    print(doc.toprettyxml())
+    # crée un fichier de nom namefile
+    myFile = open("Questions/"+namefile, "w+")
+    myFile.write(doc.toprettyxml())
+
+    # print(doc.toprettyxml())
 
 
 def selected_comp(list):
+    global idfile
     SelectList = list.curselection()
     for i in SelectList:
         listQuestion.append(list.get(i))
-    CreationXMLComp(listQuestion)
+    # crée un fichier avec en nom idfile.xml
+    idfile += 1
+    namelist = str(idfile) + '.xml'
+    CreationXMLComp(listQuestion, namelist)
     listQuestion.clear()
     # cancel selection of the list
     list.selection_clear(0, END)
 
 
 def selected_form(list):
+    global idfile
     SelectList = list.curselection()
     for i in SelectList:
         listQuestion.append(list.get(i))
-    CreationXMLForm(listQuestion)
+    idfile += 1
+    namelist = str(idfile)+".xml"
+    CreationXMLForm(listQuestion, namelist)
     listQuestion.clear()
     list.selection_clear(0, END)
 

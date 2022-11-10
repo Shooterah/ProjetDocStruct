@@ -1,0 +1,12 @@
+<?xml version="1.0" ?>
+<question typeQuestion="PersFromForma">
+	<envoyeur>
+		<id>1</id>
+		<auteur>DESKTOP-RFEAHRJ</auteur>
+		<date>2022-11-10</date>
+	</envoyeur>
+	<formations>
+		<formation>DUT</formation>
+		<formation>BTS</formation>
+	</formations>
+</question>
