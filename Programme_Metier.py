@@ -1,3 +1,4 @@
+import os
 import ressources
 from tkinter import *
 from functools import partial
@@ -11,6 +12,10 @@ listcomp = []
 listforma = []
 listQuestion = []
 idfile = 0
+dataf = 0
+nb_result = 0
+nbdata = 1
+tuple = ()
 
 
 def CreationXMLComp(listQuestion, namefile):
@@ -91,16 +96,17 @@ def CreationXMLForm(listQuestion, namefile):
     myFile = open("Questions/"+namefile, "w+")
     myFile.write(doc.toprettyxml())
 
-# fonction qui lit un document xml et qui renvoie son nom son prenom et son telephone
 
 
 def readXML(namefile):
     doc = xml.dom.minidom.parse("Reponses/"+namefile)
     tree = doc.documentElement
     typerep = tree.getAttribute("typeReponse")
-
+    type = 0
     if typerep == "RepPersFromForma":
         i = 0
+        type = 1
+        tuplepers = ()
         personnes = tree.getElementsByTagName("personnes")
         while i <= len(personnes):
             for personne in personnes:
@@ -110,10 +116,13 @@ def readXML(namefile):
                 prenom = prenom.firstChild.data
                 telephone = personne.getElementsByTagName("telephone")[i]
                 telephone = telephone.firstChild.data
-                print(nom, prenom, telephone)
+                tuplepers = tuplepers + (nom,prenom,telephone)
             i = i+1
-    elif typerep == "RepCompFromCv":
+        return i,tuplepers,type
+    if typerep == "RepCompFromCv":
         j = 0
+        type = 1
+        tupleCV = ()
         CVS = tree.getElementsByTagName("CVS")
         while j <= len(CVS):
             for CV in CVS:
@@ -129,18 +138,19 @@ def readXML(namefile):
                 github = github.firstChild.data
                 linkedin = CV.getElementsByTagName("linkedin")[j]
                 linkedin = linkedin.firstChild.data
-                print(nom, prenom, telephone, mail, github, linkedin)
+                tupleCV = tupleCV + (nom,prenom,telephone,mail,github,linkedin)
                 competences = CV.getElementsByTagName("competences")[j]
                 competence = competences.getElementsByTagName("competence")
                 for comp in competence:
                     comp = comp.firstChild.data
-                    print(comp)
+                    tupleCV = tupleCV + ("Comp",comp)
                 formations = CV.getElementsByTagName("formations")[j]
                 formation = formations.getElementsByTagName("formation")
                 for form in formation:
                     form = form.firstChild.data
-                    print(form)
+                    tupleCV = tupleCV + ("Form",form)
             j = j+1
+        return j,tupleCV,type
 
 
 def selected_comp(list):
@@ -168,6 +178,36 @@ def selected_form(list):
     listQuestion.clear()
     list.selection_clear(0, END)
 
+def suivant(frame_middle,window):
+    global dataf
+    global nbdata
+    global nb_result
+
+    if nbdata == nb_result:
+        nbdata = nbdata - nb_result+1
+        dataf = (dataf - 3*nb_result)+3
+        frame_middle.destroy()
+        frame_middle_init(window)
+    else:
+        nbdata = nbdata + 1 
+        dataf = dataf + 3
+        frame_middle.destroy()
+        frame_middle_init(window)
+
+def precedent(frame_middle,window):
+    global dataf
+    global nbdata
+    global nb_result
+    if nbdata == 1:
+        nbdata = nbdata + nb_result-1 
+        dataf = dataf + (3*nb_result)-3
+        frame_middle.destroy()
+        frame_middle_init(window)
+    else:
+        nbdata = nbdata - 1 
+        dataf = dataf - 3
+        frame_middle.destroy()
+        frame_middle_init(window)
 
 db, cursor = ressources.ConnectDB()
 ressources.ListeCompFromBase(cursor, listcomp)
@@ -176,50 +216,87 @@ ressources.DisconnectDB(cursor, db)
 
 fichiers = [f for f in listdir("Reponses") if isfile(join("Reponses", f))]
 for file in fichiers:
-    readXML(file)
+    nb_result,tuple,type = readXML(file)
+
+def frame_middle_init(window):
+    
+    frame_middle = Frame(window, bg="#528860", bd=1, relief=SUNKEN)
+    frame_middle.pack(side=TOP,expand=YES , anchor=N ,ipady=2000)
+    label3 = Label(frame_middle, text="Resultats", font=(
+        "Times New Roman", 20), padx=2000, pady=0)
+    label3.pack()
+
+    action_l3 = partial(precedent,frame_middle,window)
+    action_l4 = partial(suivant,frame_middle,window)
+
+    B3 = Button(frame_middle, text="Précedent",width = 10,height=3 , command=action_l3)
+    B3.pack(side=LEFT,padx=50, pady=50,anchor=S)
+    B4 = Button(frame_middle, text="Suivant", width = 10,height=3, command=action_l4)
+    B4.pack(side=RIGHT,padx=50, pady=50,anchor=S)
+
+    texteLabel = Label(frame_middle,bg="#528860", text = ""+str(nbdata)+"/"+str(nb_result) ,font=(
+        "Times New Roman", 20))
+    texteLabel.pack(side=BOTTOM,padx=0, pady=50,anchor=S)
+
+    if type == 1:
+        #-------------Nom-------------#
+        texteLabe2 = Label(frame_middle, bg="#528860" ,text = "Nom :",font=(
+        "Times New Roman", 20))
+        texteLabe2.place(relx=0.2, rely=0.2, height=30, width=100)
+        texteLabe2 = Label(frame_middle, bg="#528860", text = ""+str(tuple[0+dataf]) ,font=(
+        "Times New Roman", 20))
+        texteLabe2.place(relx=0.6, rely=0.2, height=30, width=100)
+        #-----------Prénom------------#
+        texteLabe3 = Label(frame_middle, bg="#528860", text = "Prénom:" ,font=(
+        "Times New Roman", 20))
+        texteLabe3.place(relx=0.2, rely=0.4, height=30, width=100)
+        texteLabe3 = Label(frame_middle, bg="#528860", text = ""+str(tuple[1+dataf]) ,font=(
+        "Times New Roman", 20))
+        texteLabe3.place(relx=0.6, rely=0.4, height=30, width=100)
+        #----------Numéro-------------#
+        texteLabe4 = Label(frame_middle,width=2006,bg="#528860", text = ""+str(tuple[2+dataf]) ,font=(
+        "Times New Roman", 15))
+        texteLabe4.place(relx=0.6, rely=0.6, height=30, width=150)
+        texteLabe4 = Label(frame_middle,width=2006,bg="#528860", text = "Numéro:",font=(
+        "Times New Roman", 20))
+        texteLabe4.place(relx=0.2, rely=0.6, height=30, width=100)
+
 
 window = Tk()
 window.title('Programme metier')
 window.geometry("1080x720")
 window.minsize(1080, 720)
-xmax = window.winfo_height()
-ymax = window.winfo_width()
 
-frame_left_top = Frame(window, bg="#8BC49A", bd=1, relief=SUNKEN)
-frame_left_top.pack(side=LEFT, expand=YES, fill=Y, anchor=NW)
+frame_left = Frame(window, bg="#8BC49A", bd=1, relief=SUNKEN)
+frame_left.pack(side=LEFT, expand=YES, fill=Y, anchor=NW)
 
-frame_right_top = Frame(window, bg="#8BC49A", bd=1, relief=SUNKEN)
-frame_right_top.pack(side=RIGHT, expand=YES, fill=Y, anchor=NE)
+frame_right = Frame(window, bg="#8BC49A", bd=1, relief=SUNKEN)
+frame_right.pack(side=RIGHT, expand=YES, fill=Y, anchor=NE)
 
-frame_left_middle = Frame(window, bg="#528860", bd=1, relief=SUNKEN)
-frame_left_middle.pack(side=TOP, ipadx=500, ipady=500, fill=Y)
-
-yscrollbar1 = Scrollbar(frame_left_top)
+yscrollbar1 = Scrollbar(frame_left)
 yscrollbar1.pack(side=RIGHT, fill=Y)
-yscrollbar2 = Scrollbar(frame_right_top)
+yscrollbar2 = Scrollbar(frame_right)
 yscrollbar2.pack(side=LEFT, fill=Y)
 
-label1 = Label(frame_left_top, text="Demande des infos CV en fonction des compétences", font=(
+label1 = Label(frame_left, text="Demande des infos CV en fonction des compétences", font=(
     "Times New Roman", 10), padx=10, pady=10)
-label2 = Label(frame_right_top, text="Demande des infos personnes en fonction des formations", font=(
+label2 = Label(frame_right, text="Demande des infos personnes en fonction des formations", font=(
     "Times New Roman", 10), padx=10, pady=10)
-label3 = Label(frame_left_middle, text="Resultats", font=(
-    "Times New Roman", 10), padx=2000, pady=10)
+
 label1.pack()
 label2.pack()
-label3.pack(side=TOP)
 
-list1 = Listbox(frame_left_top, selectmode=MULTIPLE,
+list1 = Listbox(frame_left, selectmode=MULTIPLE,
                 yscrollcommand=yscrollbar1.set)
-list2 = Listbox(frame_right_top, selectmode=MULTIPLE,
+list2 = Listbox(frame_right, selectmode=MULTIPLE,
                 yscrollcommand=yscrollbar2.set)
 
 action_l1 = partial(selected_comp, list1)
 action_l2 = partial(selected_form, list2)
 
-B1 = Button(frame_left_top, text="Recherche CV", command=action_l1)
+B1 = Button(frame_left, text="Recherche CV", command=action_l1)
 B1.pack(padx=20, pady=20)
-B2 = Button(frame_right_top, text="Recherche Personnes", command=action_l2)
+B2 = Button(frame_right, text="Recherche Personnes", command=action_l2)
 B2.pack(padx=20, pady=20)
 
 list1.pack(padx=10, pady=10, expand=YES, fill="both")
@@ -236,5 +313,6 @@ for form_item in range(len(listforma)):
 yscrollbar1.config(command=list1.yview)
 yscrollbar2.config(command=list2.yview)
 
+frame_middle_init(window)
 
 window.mainloop()

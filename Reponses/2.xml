@@ -7,7 +7,7 @@
         <date>19/10/2004</date>
     </envoyeur>
     <destinataire>lorainne</destinataire>
-    <personnes>
+    <personnes nb="3">
         <personne>
             <nom>miguel</nom>
             <prenom>pedro</prenom>
@@ -17,6 +17,11 @@
             <nom>Leduc</nom>
             <prenom>Gerard</prenom>
             <telephone>0423568410</telephone>
+        </personne>
+        <personne>
+            <nom>Mathieu</nom>
+            <prenom>Salope</prenom>
+            <telephone>0423928491</telephone>
         </personne>
     </personnes>
 </reponse>
