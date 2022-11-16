@@ -18,10 +18,10 @@ def getCV():
     return listeCV
 
 
-listeCompétence = ["Java", "C", "SQL", "Vue.js", "C++", "C#", "JavaScript", "Python", ".NET", "Spring",
-                   "SpringBoot", "JS", "Anglais", "Espagnol", "Arabe", "Chinois", "Allemand", "Italien", "PHP", "CSS", "HTML", "Web"]
+listeCompétence = []
 listeCompétenceTmp = []
-
+listediplome = []
+diplomeTmp = []
 ListeNuméroType = ["06", "07", "09"]
 ListeNuméroTypeTmp = []
 
@@ -121,11 +121,8 @@ def getGithub(text):
 
 
 def getDiplome(text):
-    diplome = ["Licence", "Master", "Doctorat",
-               "DUT", "BTS", "BAC", "Brevet", "CAP", "BEP"]
-    diplomeTmp = []
     for row in text.split("\n"):
-        for dipl in diplome:
+        for dipl in listediplome:
             if row.__contains__(dipl):
                 if dipl not in diplomeTmp:
                     diplomeTmp.append(dipl)
@@ -164,8 +161,8 @@ def afficheCV():
                     print("Github : " + github)
                 else:
                     print("Github : Inconnu")
-                if len(diplome) > 0:
-                    print("Diplome : " + str(diplome))
+                if len(listediplome) > 0:
+                    print("Diplome : " + str(listediplome))
                 else:
                     print("Diplome : Inconnu")
                 if len(listeCompétenceTmp) > 0:
@@ -201,5 +198,7 @@ def CvtoDB(cursor, db):
 
 
 db, cursor = ressources.ConnectDB()
+ressources.ListeCompFromBase(cursor, listeCompétence)
+ressources.ListeFormaFromBase(cursor, listediplome)
 CvtoDB(cursor, db)
 ressources.DisconnectDB(cursor, db)
