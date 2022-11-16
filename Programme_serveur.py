@@ -1,5 +1,11 @@
+# Connexion a la base de donnee
+import requests
+import ressources
+
+# Gestion des fichiers 
 from os import listdir
 from os.path import isfile, join, splitext
+
 
 
 def waitFile() :
@@ -18,6 +24,8 @@ def waitFile() :
     #Renvoie du fichier à traiter après la boucle
     return fichiers[0]
 
+# Init la bdd et les message de requete
+db, req = ressources.ConnectDB()
 
 while(True) :
 
@@ -32,5 +40,7 @@ while(True) :
     fichier.close()
 
     break
+
+ressources.DisconnectDB(req,db)
 
 exit()
