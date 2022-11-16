@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE reponse SYSTEM "reponse.dtd">
+<reponse typeReponse="RepCompFromCv">
+    <envoyeur>
+        <id>REP1</id>
+        <auteur>pedro</auteur>
+        <date>19/10/2022</date>
+    </envoyeur>
+    <destinataire>magalie</destinataire>
+    <CVS>
+        <CV>
+            <personne>
+                <nom>Dasilva</nom>
+                <prenom>Miguel</prenom>
+                <telephone>0680469872</telephone>
+            </personne>
+            <mail>Dasilva.Miguel@gmail.com</mail>
+            <linkedin>linkedin/Dasilva.Miguel</linkedin>
+            <github>github/Dasilva.Miguel</github>
+            <competences>
+                <competence>Maçon</competence>
+                <competence>Java</competence>
+                <competence>Comique</competence>
+            </competences>
+            <formations>
+                <formation>licence informatique</formation>
+                <formation>Bac pro BTP</formation>
+            </formations>
+        </CV>
+        <CV>
+            <personne>
+                <nom>Leduc</nom>
+                <prenom>Gerard</prenom>
+                <telephone>0423568410</telephone>
+            </personne>
+            <mail>Leduc.Gerard@gmail.com</mail>
+            <linkedin>linkedin/Leduc.Gerard</linkedin>
+            <github>github/Leduc.Gerard</github>
+            <competences>
+                <competence>JavaScript</competence>
+                <competence>Sql</competence>
+                <competence>C</competence>
+                <competence>Python</competence>
+            </competences>
+            <formations>
+                <formation>Ecole de la vie</formation>
+            </formations>
+        </CV>
+    </CVS>
+</reponse>
