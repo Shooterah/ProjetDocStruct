@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE reponse SYSTEM "reponse.dtd">
+<reponse typeReponse="RepPersFromForma">
+    <envoyeur>
+        <id>2</id>
+        <auteur>pedro</auteur>
+        <date>19/10/2004</date>
+    </envoyeur>
+    <destinataire>lorainne</destinataire>
+    <personnes nb=2>
+        <personne>
+            <nom>Leduc</nom>
+            <prenom>Gerard</prenom>
+            <telephone>0423568410</telephone>
+        </personne>
+    </personnes>
+</reponse>

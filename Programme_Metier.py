@@ -4,6 +4,8 @@ from functools import partial
 import xml.dom.minidom
 from datetime import datetime
 import socket
+from os import listdir
+from os.path import isfile, join
 
 listcomp = []
 listforma = []
@@ -89,7 +91,22 @@ def CreationXMLForm(listQuestion, namefile):
     myFile = open("Questions/"+namefile, "w+")
     myFile.write(doc.toprettyxml())
 
-    # print(doc.toprettyxml())
+# fonction qui lit un document xml et qui renvoie son nom son prenom et son telephone
+
+
+def readXML(namefile):
+    doc = xml.dom.minidom.parse("Reponses/"+namefile)
+    tree = doc.documentElement
+    # on recupere le nom
+    nom = tree.getElementsByTagName("nom")
+    nom = nom[0].firstChild.data
+    # on recupere le prenom
+    prenom = tree.getElementsByTagName("prenom")
+    prenom = prenom[0].firstChild.data
+    # on recupere le telephone
+    telephone = tree.getElementsByTagName("telephone")
+    telephone = telephone[0].firstChild.data
+    return nom, prenom, telephone
 
 
 def selected_comp(list):
@@ -123,6 +140,10 @@ ressources.ListeCompFromBase(cursor, listcomp)
 ressources.ListeFormaFromBase(cursor, listforma)
 ressources.DisconnectDB(cursor, db)
 
+fichiers = [f for f in listdir("Reponses") if isfile(join("Reponses", f))]
+for file in fichiers:
+    nom, prenom, telephone = readXML(file)
+    print(nom, prenom, telephone)
 
 window = Tk()
 window.title('Programme metier')
