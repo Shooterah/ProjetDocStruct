@@ -95,18 +95,20 @@ def CreationXMLForm(listQuestion, namefile):
 
 
 def readXML(namefile):
+    i = 0
     doc = xml.dom.minidom.parse("Reponses/"+namefile)
     tree = doc.documentElement
-    # on recupere le nom
-    nom = tree.getElementsByTagName("nom")
-    nom = nom[0].firstChild.data
-    # on recupere le prenom
-    prenom = tree.getElementsByTagName("prenom")
-    prenom = prenom[0].firstChild.data
-    # on recupere le telephone
-    telephone = tree.getElementsByTagName("telephone")
-    telephone = telephone[0].firstChild.data
-    return nom, prenom, telephone
+    personnes = tree.getElementsByTagName("personnes")
+    while i <= len(personnes):
+        for personne in personnes:
+            nom = personne.getElementsByTagName("nom")[i]
+            nom = nom.firstChild.data
+            prenom = personne.getElementsByTagName("prenom")[i]
+            prenom = prenom.firstChild.data
+            telephone = personne.getElementsByTagName("telephone")[i]
+            telephone = telephone.firstChild.data
+            print(nom, prenom, telephone)
+        i = i+1
 
 
 def selected_comp(list):
@@ -142,8 +144,7 @@ ressources.DisconnectDB(cursor, db)
 
 fichiers = [f for f in listdir("Reponses") if isfile(join("Reponses", f))]
 for file in fichiers:
-    nom, prenom, telephone = readXML(file)
-    print(nom, prenom, telephone)
+    readXML(file)
 
 window = Tk()
 window.title('Programme metier')

@@ -7,7 +7,12 @@
         <date>19/10/2004</date>
     </envoyeur>
     <destinataire>lorainne</destinataire>
-    <personnes nb=2>
+    <personnes>
+        <personne>
+            <nom>miguel</nom>
+            <prenom>pedro</prenom>
+            <telephone>0623568410</telephone>
+        </personne>
         <personne>
             <nom>Leduc</nom>
             <prenom>Gerard</prenom>
