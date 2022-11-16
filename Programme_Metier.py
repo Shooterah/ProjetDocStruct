@@ -1,38 +1,14 @@
-import MySQLdb
+import ressources
 from tkinter import *
 from functools import partial
 import xml.dom.minidom
 from datetime import datetime
 import socket
-import os
 
 listcomp = []
 listforma = []
 listQuestion = []
 idfile = 0
-
-
-def ConnectDB():
-    try:
-        db = MySQLdb.connect(host="localhost", user="root",
-                             passwd="", database="docstruc")
-        cursor = db.cursor()
-    except MySQLdb.Error as error:
-        print("Failed to connect to Database{}".format(error))
-    finally:
-        print("Connected to the database")
-        return db, cursor
-
-
-def DisconnectDB(cursor, db):
-    try:
-        if (db):
-            cursor.close()
-            db.close()
-    except MySQLdb.Error as error:
-        print("Database is not Connected{}".format(error))
-    finally:
-        print("MySQL connection is closed")
 
 
 def ListeCompFromBase(cursor, listcomp):
@@ -158,10 +134,10 @@ def selected_form(list):
     list.selection_clear(0, END)
 
 
-db, cursor = ConnectDB()
+db, cursor = ressources.ConnectDB()
 ListeCompFromBase(cursor, listcomp)
 ListeFormaFromBase(cursor, listforma)
-DisconnectDB(cursor, db)
+ressources.DisconnectDB(cursor, db)
 
 
 window = Tk()
