@@ -114,9 +114,9 @@ def readXML(namefile):
             i = i+1
     elif typerep == "RepCompFromCv":
         j = 0
-        CVs = tree.getElementsByTagName("CVs")
-        while j <= len(CVs):
-            for CV in CVs:
+        CVS = tree.getElementsByTagName("CVS")
+        while j <= len(CVS):
+            for CV in CVS:
                 nom = CV.getElementsByTagName("nom")[j]
                 nom = nom.firstChild.data
                 prenom = CV.getElementsByTagName("prenom")[j]
@@ -129,22 +129,17 @@ def readXML(namefile):
                 github = github.firstChild.data
                 linkedin = CV.getElementsByTagName("linkedin")[j]
                 linkedin = linkedin.firstChild.data
+                print(nom, prenom, telephone, mail, github, linkedin)
                 competences = CV.getElementsByTagName("competences")[j]
-                x = 0
-                while x <= len(competences):
-                    for competence in competences:
-                        nomcomp = competence.getElementsByTagName("competence")[
-                            x]
-                        nomcomp = nomcomp.firstChild.data
-                        x = x+1
-                y = 0
+                competence = competences.getElementsByTagName("competence")
+                for comp in competence:
+                    comp = comp.firstChild.data
+                    print(comp)
                 formations = CV.getElementsByTagName("formations")[j]
-                while y <= len(formations):
-                    for formation in formations:
-                        nomform = formation.getElementsByTagName("formation")[
-                            y]
-                        nomform = nomform.firstChild.data
-                        y = y+1
+                formation = formations.getElementsByTagName("formation")
+                for form in formation:
+                    form = form.firstChild.data
+                    print(form)
             j = j+1
 
 
