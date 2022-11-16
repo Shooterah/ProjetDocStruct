@@ -1,10 +1,10 @@
 from multiprocessing.connection import wait
 from time import sleep
 from turtle import clear
-import MySQLdb
 import pdfplumber
 import json
 import requests
+import ressources
 
 # Fonction qui affiche le nom de tout les fichiers contenue dans un dossier
 
@@ -18,10 +18,10 @@ def getCV():
     return listeCV
 
 
-listeCompétence = ["Java", "C", "SQL", "Vue.js", "C++", "C#", "JavaScript", "Python", ".NET", "Spring",
-                   "SpringBoot", "JS", "Anglais", "Espagnol", "Arabe", "Chinois", "Allemand", "Italien", "PHP", "CSS", "HTML", "Web"]
+listeCompétence = []
 listeCompétenceTmp = []
-
+listediplome = []
+diplomeTmp = []
 ListeNuméroType = ["06", "07", "09"]
 ListeNuméroTypeTmp = []
 
@@ -121,11 +121,8 @@ def getGithub(text):
 
 
 def getDiplome(text):
-    diplome = ["Licence", "Master", "Doctorat",
-               "DUT", "BTS", "BAC", "Brevet", "CAP", "BEP"]
-    diplomeTmp = []
     for row in text.split("\n"):
-        for dipl in diplome:
+        for dipl in listediplome:
             if row.__contains__(dipl):
                 if dipl not in diplomeTmp:
                     diplomeTmp.append(dipl)
@@ -164,8 +161,8 @@ def afficheCV():
                     print("Github : " + github)
                 else:
                     print("Github : Inconnu")
-                if len(diplome) > 0:
-                    print("Diplome : " + str(diplome))
+                if len(listediplome) > 0:
+                    print("Diplome : " + str(listediplome))
                 else:
                     print("Diplome : Inconnu")
                 if len(listeCompétenceTmp) > 0:
@@ -194,69 +191,14 @@ def CvtoDB(cursor, db):
                 github = getGithub(text)
                 getDataCompetence(text)
                 diplome = getDiplome(text)
-                sendToDB(cursor, db, prenom, nom, mail, ListeNuméroTypeTmp,
-                         linkedin, github, listeCompétenceTmp, diplome)
+                ressources.sendToDB(cursor, db, prenom, nom, mail, ListeNuméroTypeTmp,
+                                    linkedin, github, listeCompétenceTmp, diplome)
                 listeCompétenceTmp.clear()
                 ListeNuméroTypeTmp.clear()
 
 
-def ConnectDB():
-    try:
-        db = MySQLdb.connect(host="localhost", user="root",
-                             passwd="", database="docstruc")
-        cursor = db.cursor()
-    except MySQLdb.Error as error:
-        print("Failed to connect to Database{}".format(error))
-    finally:
-        print("Connected to the database")
-        return db, cursor
-
-
-def DisconnectDB(cursor, db):
-    try:
-        if (db):
-            cursor.close()
-            db.close()
-    except MySQLdb.Error as error:
-        print("Database is not Connected{}".format(error))
-    finally:
-        print("MySQL connection is closed")
-
-
-def sendToDB(cursor, db, prenom, nom, mail, ListeNuméroTypeTmp, linkedin, github, listeCompétenceTmp, diplome):
-    try:
-        sql1 = "INSERT INTO candidats(Nom, Prenom, Mail, Tel, Linkedin, Github) VALUES (%s, %s, %s, %s, %s, %s)"
-        val = (nom, prenom, mail, str(ListeNuméroTypeTmp[0]), linkedin, github)
-        cursor.execute(sql1, val)
-        id = db.insert_id()
-        db.commit()
-
-        for comp in listeCompétenceTmp:
-            sql2 = "SELECT idcomp FROM competences WHERE NomComp LIKE '" + \
-                str(comp)+"'"
-            cursor.execute(sql2)
-            res = cursor.fetchone()
-            sql3 = "INSERT INTO candiComp(idcand, idcomp) VALUES (%s, %s)"
-            val = (id, res[0])
-            cursor.execute(sql3, val)
-            db.commit()
-
-        for dipl in diplome:
-            sql4 = "SELECT idform FROM formations WHERE NomForm LIKE '" + \
-                str(dipl)+"'"
-            cursor.execute(sql4)
-            res = cursor.fetchone()
-            sql5 = "INSERT INTO candiForm(idcand, idform) VALUES (%s, %s)"
-            val = (id, res[0])
-            cursor.execute(sql5, val)
-            db.commit()
-
-    except MySQLdb.Error as error:
-        print("Failed to insert record into MySQL table {}".format(error))
-    finally:
-        print("Insert "+prenom+" Successful")
-
-
-db, cursor = ConnectDB()
+db, cursor = ressources.ConnectDB()
+ressources.ListeCompFromBase(cursor, listeCompétence)
+ressources.ListeFormaFromBase(cursor, listediplome)
 CvtoDB(cursor, db)
-DisconnectDB(cursor, db)
+ressources.DisconnectDB(cursor, db)
