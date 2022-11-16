@@ -11,22 +11,6 @@ listQuestion = []
 idfile = 0
 
 
-def ListeCompFromBase(cursor, listcomp):
-    sql2 = "SELECT NomComp FROM competences"
-    cursor.execute(sql2)
-    res = cursor.fetchall()
-    for line in res:
-        listcomp.append(line[0])
-
-
-def ListeFormaFromBase(cursor, listforma):
-    sql2 = "SELECT NomForm FROM formations"
-    cursor.execute(sql2)
-    res = cursor.fetchall()
-    for line in res:
-        listforma.append(line[0])
-
-
 def CreationXMLComp(listQuestion, namefile):
 
     doc = xml.dom.minidom.parseString("<question/>")
@@ -135,8 +119,8 @@ def selected_form(list):
 
 
 db, cursor = ressources.ConnectDB()
-ListeCompFromBase(cursor, listcomp)
-ListeFormaFromBase(cursor, listforma)
+ressources.ListeCompFromBase(cursor, listcomp)
+ressources.ListeFormaFromBase(cursor, listforma)
 ressources.DisconnectDB(cursor, db)
 
 

@@ -56,3 +56,19 @@ def sendToDB(cursor, db, prenom, nom, mail, ListeNuméroTypeTmp, linkedin, githu
         print("Failed to insert record into MySQL table {}".format(error))
     finally:
         print("Insert "+prenom+" Successful")
+
+
+def ListeCompFromBase(cursor, listcomp):
+    sql2 = "SELECT NomComp FROM competences"
+    cursor.execute(sql2)
+    res = cursor.fetchall()
+    for line in res:
+        listcomp.append(line[0])
+
+
+def ListeFormaFromBase(cursor, listforma):
+    sql2 = "SELECT NomForm FROM formations"
+    cursor.execute(sql2)
+    res = cursor.fetchall()
+    for line in res:
+        listforma.append(line[0])
