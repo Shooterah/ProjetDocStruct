@@ -1,0 +1,20 @@
+TEST 
+
+<!-- XML qui simule une requête de toutes les infos des CV en fonction d'une competence -->
+
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE Questions SYSTEM "Questions/questions.dtd">
+<Question>
+    <Capsule>
+        <id>1</id>
+        <Sujet>...</Sujet>
+        <Autheur>...</Autheur>
+        <Date>...</Date>
+    </Capsule>
+    <CVS>
+        <competences>
+            <competence>...</competence>
+            <competence>...</competence>
+        </competences>
+    </CVS>
+</Question>
