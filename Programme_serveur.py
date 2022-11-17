@@ -1,3 +1,8 @@
+
+# ---------+
+# | Import |
+# +--------+
+
 # Connexion a la base de donnee
 import requests
 import ressources
@@ -10,7 +15,19 @@ import xml.dom.minidom
 from os import listdir
 from os.path import isfile, join, splitext
 
+# +------------+
+# | Constantes |
+# +------------+
 
+# Dans le cas ou une liste de compétence est renvoyee (cf. readXML())
+LICOMP = 1
+# Dans le cas ou une liste de formations est renvoyee (Cf. readXml())
+LIFORMA = 2
+
+
+# +-----------+
+# | Fonctions |
+# +-----------+
 
 def waitFile() :
     while(True) :
@@ -39,11 +56,10 @@ def readXML(fic):
     # Recupere le type de requete (Premier element de l'arbre)
     typereq = elt.getAttribute("typeQuestion")
 
-    #-----------------------------------------------#
-    # Analyse de la requete en fonction de son type #
-    #-----------------------------------------------#
 
-    # Cv depuis les compétences
+    # Analyse de la requete en fonction de son type #
+      
+    # Cv depuis les competences
     if typereq == "CompFromCv":
 
         # Init itérateur
@@ -54,11 +70,35 @@ def readXML(fic):
         # Récupere la valeur des elements "competence" (liste) dans l'arbre dom (forme une liste/NodeList)
         competences = tree.getElementsByTagName("competence")
 
-        # Creation de la liste de competences en variable
+        # Creation de la liste de competences (variable)
         for comp in competences:
+            # childNodes = ce qui est contenu entre les balises <competence>,
+            # nodeValue = la valeur de ce contenu
             liComp.append(comp.childNodes[0].nodeValue)
     
-    print(liComp)
+        return LICOMP,liComp
+
+    # Cv depuis les formations
+    if typereq == "PersFromForma":
+
+        # Init itérateur
+        i = 0
+        # Init la liste des compétences
+        liForma = []
+
+        # Récupere la valeur des elements "competence" (liste) dans l'arbre dom (forme une liste/NodeList)
+        formations = tree.getElementsByTagName("formation")
+
+        # Creation de la liste de competences (variable)
+        for forma in formations:
+            # childNodes = ce qui est contenu entre les balises <competence>,
+            # nodeValue = la valeur de ce contenu
+            liForma.append(forma.childNodes[0].nodeValue)
+    
+        return LIFORMA, liForma
+
+
+
 
 
 # Init la bdd et les message de requete
@@ -76,8 +116,12 @@ while(True) :
     #print(fichier.read())
     #fichier.close()
 
-    readXML(fic)
+    typeReq,liReq = readXML(fic)
 
+    if(typeReq == LICOMP)
+        
+
+    
     break
 
 ressources.DisconnectDB(req,db)

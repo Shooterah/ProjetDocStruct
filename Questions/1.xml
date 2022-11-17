@@ -1,13 +1,14 @@
 <?xml version="1.0" ?>
-<question typeQuestion="PersFromForma">
+<question typeQuestion="CompFromCv">
 	<envoyeur>
 		<id>1</id>
-		<auteur>DESKTOP-I9D1G5U</auteur>
-		<date>2022-11-16</date>
+		<auteur>DESKTOP-RFEAHRJ</auteur>
+		<date>2022-11-10</date>
 	</envoyeur>
-	<formations>
-		<formation>BTS</formation>
-		<formation>Brevet</formation>
-		<formation>CAP</formation>
-	</formations>
+	<competences>
+		<competence>Python</competence>
+		<competence>Anglais</competence>
+	</competences>
 </question>
+
+

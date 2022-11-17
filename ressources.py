@@ -72,3 +72,13 @@ def ListeFormaFromBase(cursor, listforma):
     res = cursor.fetchall()
     for line in res:
         listforma.append(line[0])
+
+
+# Envoie une requête a la bdd pour trouver les CV correspondants
+
+# Depuis une liste de competences
+def askFromComp(licomp):
+    sql = "SELECT Nom, Prenom, Mail, Tel, Linkedin, Github FROM 
+
+    # SELECT * FROM `candidats`,`candicomp`,`competences` WHERE candidats.idCand = candicomp.idCand AND candicomp.idComp = competences.idComp AND competences.NomComp = "CSS"
+     
