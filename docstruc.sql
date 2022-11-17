@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le : mer. 02 nov. 2022 à 09:48
+-- Généré le : jeu. 17 nov. 2022 à 08:16
 -- Version du serveur : 5.7.36
 -- Version de PHP : 7.4.26
 
@@ -171,7 +171,7 @@ CREATE TABLE IF NOT EXISTS `competences` (
   `idComp` int(11) NOT NULL AUTO_INCREMENT,
   `NomComp` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
   PRIMARY KEY (`idComp`)
-) ENGINE=MyISAM AUTO_INCREMENT=23 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=39 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Déchargement des données de la table `competences`
@@ -199,7 +199,23 @@ INSERT INTO `competences` (`idComp`, `NomComp`) VALUES
 (19, 'PHP'),
 (20, 'CSS'),
 (21, 'HTML'),
-(22, 'Web');
+(22, 'Web'),
+(23, 'Cobol'),
+(24, 'Latex'),
+(25, 'Progress'),
+(26, 'Dart'),
+(27, 'Flutter'),
+(28, 'xamarin'),
+(29, 'android'),
+(30, 'Bash'),
+(31, 'React'),
+(32, 'NodeJs'),
+(33, 'Angular'),
+(34, 'TypeScript'),
+(35, 'Marketing'),
+(36, 'Comptabilité'),
+(37, 'Management'),
+(38, 'Marouflage');
 
 -- --------------------------------------------------------
 
