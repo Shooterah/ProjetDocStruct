@@ -59,7 +59,7 @@ def sendToDB(cursor, db, prenom, nom, mail, ListeNuméroTypeTmp, linkedin, githu
 
 
 def ListeCompFromBase(cursor, listcomp):
-    sql2 = "SELECT NomComp FROM competences"
+    sql2 = "SELECT NomComp FROM competences ORDER BY NomComp"
     cursor.execute(sql2)
     res = cursor.fetchall()
     for line in res:
@@ -67,7 +67,7 @@ def ListeCompFromBase(cursor, listcomp):
 
 
 def ListeFormaFromBase(cursor, listforma):
-    sql2 = "SELECT NomForm FROM formations"
+    sql2 = "SELECT NomForm FROM formations ORDER BY NomForm"
     cursor.execute(sql2)
     res = cursor.fetchall()
     for line in res:

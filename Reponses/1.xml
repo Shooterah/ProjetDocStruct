@@ -2,12 +2,12 @@
 <!DOCTYPE reponse SYSTEM "reponse.dtd">
 <reponse typeReponse="RepCompFromCv">
     <envoyeur>
-        <id>REP1</id>
+        <id>1</id>
         <auteur>pedro</auteur>
         <date>19/10/2022</date>
     </envoyeur>
     <destinataire>magalie</destinataire>
-    <CVS>
+    <CVS nb="2">
         <CV>
             <personne>
                 <nom>Dasilva</nom>
