@@ -120,7 +120,7 @@ def readXML(namefile):
     
     if typerep == "RepCompFromCv":
 
-        j = 0;x=0;y=0;type = 1;tupleCV = ()
+        j = 0;type = 1;tupleCV = ()
 
         CV = tree.getElementsByTagName("CV")
         for cv in CV:
@@ -140,11 +140,11 @@ def readXML(namefile):
             competence = cv.getElementsByTagName("competence")
             for comp in competence:
                 comp = comp.firstChild.nodeValue
-                tupleCV = tupleCV + ("Comp",comp)
+                tupleCV = tupleCV + (comp,)
             formation = cv.getElementsByTagName("formation")
             for form in formation:
                 form = form.firstChild.nodeValue
-                tupleCV = tupleCV + ("Form",form)
+                tupleCV = tupleCV + (form,)
             j = j+1
         return j,tupleCV,type
 
