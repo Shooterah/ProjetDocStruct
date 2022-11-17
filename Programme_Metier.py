@@ -58,7 +58,7 @@ def CreationXMLComp(listQuestion, namefile):
 
     # print(doc.toprettyxml())
 
-
+ #-------------------Création D'UN XML de formations---------------------#
 def CreationXMLForm(listQuestion, namefile):
     doc = xml.dom.minidom.parseString("<question/>")
     tree = doc.documentElement
@@ -91,22 +91,21 @@ def CreationXMLForm(listQuestion, namefile):
         formation.appendChild(textformation)
         formations.appendChild(formation)
     tree.appendChild(formations)
-
     # crée un fichier de nom namefile
     myFile = open("Questions/"+namefile, "w+")
     myFile.write(doc.toprettyxml())
 
-
-
+ #-------------------LECTURE D'UN XML---------------------#
 def readXML(namefile):
     doc = xml.dom.minidom.parse("Reponses/"+namefile)
     tree = doc.documentElement
     typerep = tree.getAttribute("typeReponse")
     type = 0
+    
     if typerep == "RepPersFromForma":
-        i = 0
-        type = 1
-        tuplepers = ()
+
+        i = 0;type = 1;tuplepers = ()
+
         personne = tree.getElementsByTagName("personne")
         for pers in personne:
             nom = pers.getElementsByTagName("nom")
@@ -118,36 +117,34 @@ def readXML(namefile):
             tuplepers = tuplepers + (nom,prenom,telephone)
             i = i+1
         return i,tuplepers,type
+    
     if typerep == "RepCompFromCv":
-        j = 0
-        type = 1
-        tupleCV = ()
-        CVS = tree.getElementsByTagName("CVS")
-        while j <= CVS.length:
-            for CV in CVS:
-                nom = CV.getElementsByTagName("nom")[j]
-                nom = nom.firstChild.data
-                prenom = CV.getElementsByTagName("prenom")[j]
-                prenom = prenom.firstChild.data
-                telephone = CV.getElementsByTagName("telephone")[j]
-                telephone = telephone.firstChild.data
-                mail = CV.getElementsByTagName("mail")[j]
-                mail = mail.firstChild.data
-                github = CV.getElementsByTagName("github")[j]
-                github = github.firstChild.data
-                linkedin = CV.getElementsByTagName("linkedin")[j]
-                linkedin = linkedin.firstChild.data
-                tupleCV = tupleCV + (nom,prenom,telephone,mail,github,linkedin)
-                competences = CV.getElementsByTagName("competences")[j]
-                competence = competences.getElementsByTagName("competence")
-                for comp in competence:
-                    comp = comp.firstChild.data
-                    tupleCV = tupleCV + ("Comp",comp)
-                formations = CV.getElementsByTagName("formations")[j]
-                formation = formations.getElementsByTagName("formation")
-                for form in formation:
-                    form = form.firstChild.data
-                    tupleCV = tupleCV + ("Form",form)
+
+        j = 0;x=0;y=0;type = 1;tupleCV = ()
+
+        CV = tree.getElementsByTagName("CV")
+        for cv in CV:
+            nom = cv.getElementsByTagName("nom")
+            nom = nom.item(0).firstChild.nodeValue
+            prenom = cv.getElementsByTagName("prenom")
+            prenom = prenom.item(0).firstChild.nodeValue
+            telephone = cv.getElementsByTagName("telephone")
+            telephone = telephone.item(0).firstChild.nodeValue
+            mail = cv.getElementsByTagName("mail")
+            mail = mail.item(0).firstChild.nodeValue
+            github = cv.getElementsByTagName("github")
+            github = github.item(0).firstChild.nodeValue
+            linkedin = cv.getElementsByTagName("linkedin")
+            linkedin = linkedin.item(0).firstChild.nodeValue
+            tupleCV = tupleCV + (nom,prenom,telephone,mail,github,linkedin)
+            competence = cv.getElementsByTagName("competence")
+            for comp in competence:
+                comp = comp.firstChild.nodeValue
+                tupleCV = tupleCV + ("Comp",comp)
+            formation = cv.getElementsByTagName("formation")
+            for form in formation:
+                form = form.firstChild.nodeValue
+                tupleCV = tupleCV + ("Form",form)
             j = j+1
         return j,tupleCV,type
 
@@ -265,6 +262,8 @@ ressources.DisconnectDB(cursor, db)
 fichiers = [f for f in listdir("Reponses") if isfile(join("Reponses", f))]
 for file in fichiers:
     nb_result,tuple,type = readXML(file)
+    print(tuple)
+
 
 window = Tk()
 window.title('Programme metier')
