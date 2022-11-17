@@ -107,16 +107,15 @@ def readXML(namefile):
         i = 0
         type = 1
         tuplepers = ()
-        personnes = tree.getElementsByTagName("personnes")
-        while i <= len(personnes):
-            for personne in personnes:
-                nom = personne.getElementsByTagName("nom")[i]
-                nom = nom.firstChild.data
-                prenom = personne.getElementsByTagName("prenom")[i]
-                prenom = prenom.firstChild.data
-                telephone = personne.getElementsByTagName("telephone")[i]
-                telephone = telephone.firstChild.data
-                tuplepers = tuplepers + (nom,prenom,telephone)
+        personne = tree.getElementsByTagName("personne")
+        for pers in personne:
+            nom = pers.getElementsByTagName("nom")
+            nom = nom.item(0).firstChild.nodeValue
+            prenom = pers.getElementsByTagName("prenom")
+            prenom = prenom.item(0).firstChild.nodeValue
+            telephone = pers.getElementsByTagName("telephone")
+            telephone = telephone.item(0).firstChild.nodeValue
+            tuplepers = tuplepers + (nom,prenom,telephone)
             i = i+1
         return i,tuplepers,type
     if typerep == "RepCompFromCv":
@@ -124,7 +123,7 @@ def readXML(namefile):
         type = 1
         tupleCV = ()
         CVS = tree.getElementsByTagName("CVS")
-        while j <= len(CVS):
+        while j <= CVS.length:
             for CV in CVS:
                 nom = CV.getElementsByTagName("nom")[j]
                 nom = nom.firstChild.data
@@ -209,6 +208,55 @@ def precedent(frame_middle,window):
         frame_middle.destroy()
         frame_middle_init(window)
 
+
+def frame_middle_init(window):
+    global nb_result
+    frame_middle = Frame(window, bg="#528860", bd=1, relief=SUNKEN)
+    frame_middle.pack(side=TOP,expand=YES , anchor=N ,ipady=2000)
+    label3 = Label(frame_middle, text="Resultats", font=(
+        "Times New Roman", 20), padx=2000, pady=0)
+    label3.pack()
+
+    if nb_result >= 1:
+        action_l3 = partial(precedent,frame_middle,window)
+        action_l4 = partial(suivant,frame_middle,window)
+
+        B3 = Button(frame_middle, text="Précedent",width = 10,height=3 , command=action_l3)
+        B3.pack(side=LEFT,padx=50, pady=50,anchor=S)
+        B4 = Button(frame_middle, text="Suivant", width = 10,height=3, command=action_l4)
+        B4.pack(side=RIGHT,padx=50, pady=50,anchor=S)
+
+        texteLabel = Label(frame_middle,bg="#528860", text = ""+str(nbdata)+"/"+str(nb_result) ,font=(
+            "Times New Roman", 20))
+        texteLabel.pack(side=BOTTOM,padx=0, pady=50,anchor=S)
+
+        if type == 1 :
+            #-------------Nom-------------#
+            texteLabe2 = Label(frame_middle, bg="#528860" ,text = "Nom :",font=(
+            "Times New Roman", 20))
+            texteLabe2.place(relx=0.2, rely=0.2, height=30, width=100)
+            texteLabe2 = Label(frame_middle, bg="#528860", text = ""+str(tuple[0+dataf]) ,font=(
+            "Times New Roman", 20))
+            texteLabe2.place(relx=0.6, rely=0.2, height=30, width=100)
+            #-----------Prénom------------#
+            texteLabe3 = Label(frame_middle, bg="#528860", text = "Prénom:" ,font=(
+            "Times New Roman", 20))
+            texteLabe3.place(relx=0.2, rely=0.4, height=30, width=100)
+            texteLabe3 = Label(frame_middle, bg="#528860", text = ""+str(tuple[1+dataf]) ,font=(
+            "Times New Roman", 20))
+            texteLabe3.place(relx=0.6, rely=0.4, height=30, width=100)
+            #----------Numéro-------------#
+            texteLabe4 = Label(frame_middle,width=2006,bg="#528860", text = ""+str(tuple[2+dataf]) ,font=(
+            "Times New Roman", 15))
+            texteLabe4.place(relx=0.6, rely=0.6, height=30, width=150)
+            texteLabe4 = Label(frame_middle,width=2006,bg="#528860", text = "Numéro:",font=(
+            "Times New Roman", 20))
+            texteLabe4.place(relx=0.2, rely=0.6, height=30, width=100)
+
+
+
+#---------------------------------------------------MAIN-----------------------------------------------------#
+
 db, cursor = ressources.ConnectDB()
 ressources.ListeCompFromBase(cursor, listcomp)
 ressources.ListeFormaFromBase(cursor, listforma)
@@ -217,50 +265,6 @@ ressources.DisconnectDB(cursor, db)
 fichiers = [f for f in listdir("Reponses") if isfile(join("Reponses", f))]
 for file in fichiers:
     nb_result,tuple,type = readXML(file)
-
-def frame_middle_init(window):
-    
-    frame_middle = Frame(window, bg="#528860", bd=1, relief=SUNKEN)
-    frame_middle.pack(side=TOP,expand=YES , anchor=N ,ipady=2000)
-    label3 = Label(frame_middle, text="Resultats", font=(
-        "Times New Roman", 20), padx=2000, pady=0)
-    label3.pack()
-
-    action_l3 = partial(precedent,frame_middle,window)
-    action_l4 = partial(suivant,frame_middle,window)
-
-    B3 = Button(frame_middle, text="Précedent",width = 10,height=3 , command=action_l3)
-    B3.pack(side=LEFT,padx=50, pady=50,anchor=S)
-    B4 = Button(frame_middle, text="Suivant", width = 10,height=3, command=action_l4)
-    B4.pack(side=RIGHT,padx=50, pady=50,anchor=S)
-
-    texteLabel = Label(frame_middle,bg="#528860", text = ""+str(nbdata)+"/"+str(nb_result) ,font=(
-        "Times New Roman", 20))
-    texteLabel.pack(side=BOTTOM,padx=0, pady=50,anchor=S)
-
-    if type == 1:
-        #-------------Nom-------------#
-        texteLabe2 = Label(frame_middle, bg="#528860" ,text = "Nom :",font=(
-        "Times New Roman", 20))
-        texteLabe2.place(relx=0.2, rely=0.2, height=30, width=100)
-        texteLabe2 = Label(frame_middle, bg="#528860", text = ""+str(tuple[0+dataf]) ,font=(
-        "Times New Roman", 20))
-        texteLabe2.place(relx=0.6, rely=0.2, height=30, width=100)
-        #-----------Prénom------------#
-        texteLabe3 = Label(frame_middle, bg="#528860", text = "Prénom:" ,font=(
-        "Times New Roman", 20))
-        texteLabe3.place(relx=0.2, rely=0.4, height=30, width=100)
-        texteLabe3 = Label(frame_middle, bg="#528860", text = ""+str(tuple[1+dataf]) ,font=(
-        "Times New Roman", 20))
-        texteLabe3.place(relx=0.6, rely=0.4, height=30, width=100)
-        #----------Numéro-------------#
-        texteLabe4 = Label(frame_middle,width=2006,bg="#528860", text = ""+str(tuple[2+dataf]) ,font=(
-        "Times New Roman", 15))
-        texteLabe4.place(relx=0.6, rely=0.6, height=30, width=150)
-        texteLabe4 = Label(frame_middle,width=2006,bg="#528860", text = "Numéro:",font=(
-        "Times New Roman", 20))
-        texteLabe4.place(relx=0.2, rely=0.6, height=30, width=100)
-
 
 window = Tk()
 window.title('Programme metier')
