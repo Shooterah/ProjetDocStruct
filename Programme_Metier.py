@@ -6,6 +6,7 @@ import xml.dom.minidom
 from datetime import datetime
 import socket
 from os import listdir
+import time
 from os.path import isfile, join
 
 listcomp = []
@@ -13,7 +14,10 @@ listforma = []
 listQuestion = []
 idfile = 0
 dataf = 0
+nbcomp = [0 for i in range(100)]
+nbforma = [0 for i in range(100)]
 nb_result = 0
+type = 0
 nbdata = 1
 tuple = ()
 
@@ -59,6 +63,8 @@ def CreationXMLComp(listQuestion, namefile):
     # print(doc.toprettyxml())
 
  #-------------------Création D'UN XML de formations---------------------#
+
+
 def CreationXMLForm(listQuestion, namefile):
     doc = xml.dom.minidom.parseString("<question/>")
     tree = doc.documentElement
@@ -96,15 +102,21 @@ def CreationXMLForm(listQuestion, namefile):
     myFile.write(doc.toprettyxml())
 
  #-------------------LECTURE D'UN XML---------------------#
+
+
 def readXML(namefile):
-    doc = xml.dom.minidom.parse("Reponses/"+namefile)
+    global nbcomp
+    global nbforma
+    doc = xml.dom.minidom.parse(namefile)
     tree = doc.documentElement
     typerep = tree.getAttribute("typeReponse")
     type = 0
-    
+
     if typerep == "RepPersFromForma":
 
-        i = 0;type = 1;tuplepers = ()
+        i = 0
+        type = 1
+        tuplepers = ()
 
         personne = tree.getElementsByTagName("personne")
         for pers in personne:
@@ -114,13 +126,15 @@ def readXML(namefile):
             prenom = prenom.item(0).firstChild.nodeValue
             telephone = pers.getElementsByTagName("telephone")
             telephone = telephone.item(0).firstChild.nodeValue
-            tuplepers = tuplepers + (nom,prenom,telephone)
+            tuplepers = tuplepers + (nom, prenom, telephone)
             i = i+1
-        return i,tuplepers,type
-    
+        return i, tuplepers, type
+
     if typerep == "RepCompFromCv":
 
-        j = 0;type = 1;tupleCV = ()
+        j = 0
+        type = 2
+        tupleCV = ()
 
         CV = tree.getElementsByTagName("CV")
         for cv in CV:
@@ -136,20 +150,24 @@ def readXML(namefile):
             github = github.item(0).firstChild.nodeValue
             linkedin = cv.getElementsByTagName("linkedin")
             linkedin = linkedin.item(0).firstChild.nodeValue
-            tupleCV = tupleCV + (nom,prenom,telephone,mail,github,linkedin)
+            tupleCV = tupleCV + (nom, prenom, telephone,
+                                 mail, github, linkedin)
             competence = cv.getElementsByTagName("competence")
             for comp in competence:
                 comp = comp.firstChild.nodeValue
                 tupleCV = tupleCV + (comp,)
+                nbcomp[j] = nbcomp[j]+1
+
             formation = cv.getElementsByTagName("formation")
             for form in formation:
                 form = form.firstChild.nodeValue
                 tupleCV = tupleCV + (form,)
+                nbforma[j] = nbforma[j]+1
             j = j+1
-        return j,tupleCV,type
+        return j, tupleCV, type
 
 
-def selected_comp(list):
+def selected_comp(frame_middle, list):
     global idfile
     SelectList = list.curselection()
     for i in SelectList:
@@ -161,9 +179,12 @@ def selected_comp(list):
     listQuestion.clear()
     # cancel selection of the list
     list.selection_clear(0, END)
+    listen()
+    frame_middle.destroy()
+    frame_middle_init(window)
 
 
-def selected_form(list):
+def selected_form(frame_middle, list):
     global idfile
     SelectList = list.curselection()
     for i in SelectList:
@@ -173,102 +194,200 @@ def selected_form(list):
     CreationXMLForm(listQuestion, namelist)
     listQuestion.clear()
     list.selection_clear(0, END)
+    listen()
+    frame_middle.destroy()
+    frame_middle_init(window)
 
-def suivant(frame_middle,window):
+
+def suivant(frame_middle, window):
     global dataf
     global nbdata
     global nb_result
+    global nbcomp
+    global nbforma
 
-    if nbdata == nb_result:
-        nbdata = nbdata - nb_result+1
-        dataf = (dataf - 3*nb_result)+3
-        frame_middle.destroy()
-        frame_middle_init(window)
-    else:
-        nbdata = nbdata + 1 
-        dataf = dataf + 3
-        frame_middle.destroy()
-        frame_middle_init(window)
+    if type == 1:
+        if nbdata < nb_result:
+            nbdata = nbdata + 1
+            dataf = dataf + 3
+            frame_middle.destroy()
+            frame_middle_init(window)
+    if type == 2:
+        if nbdata < nb_result:
+            nbdata = nbdata + 1
+            dataf = dataf + 6+nbcomp[nbdata-1]+nbforma[nbdata-1]
+            frame_middle.destroy()
+            frame_middle_init(window)
 
-def precedent(frame_middle,window):
+
+def precedent(frame_middle, window):
     global dataf
     global nbdata
     global nb_result
-    if nbdata == 1:
-        nbdata = nbdata + nb_result-1 
-        dataf = dataf + (3*nb_result)-3
-        frame_middle.destroy()
-        frame_middle_init(window)
-    else:
-        nbdata = nbdata - 1 
-        dataf = dataf - 3
-        frame_middle.destroy()
-        frame_middle_init(window)
+    if type == 1:
+        if nbdata > 1:
+            nbdata = nbdata - 1
+            dataf = dataf - 3
+            frame_middle.destroy()
+            frame_middle_init(window)
+    if type == 2:
+        if nbdata > 1:
+            nbdata = nbdata - 1
+            dataf = dataf - (6+nbcomp[nbdata-1]+nbforma[nbdata-1])
+            frame_middle.destroy()
+            frame_middle_init(window)
 
 
 def frame_middle_init(window):
+
     global nb_result
+    global nbcomp
+    global nbforma
+    global nb_result
+
     frame_middle = Frame(window, bg="#528860", bd=1, relief=SUNKEN)
-    frame_middle.pack(side=TOP,expand=YES , anchor=N ,ipady=2000)
+    frame_middle.pack(side=TOP, expand=YES, anchor=N, ipady=2000)
     label3 = Label(frame_middle, text="Resultats", font=(
         "Times New Roman", 20), padx=2000, pady=0)
     label3.pack()
 
     if nb_result >= 1:
-        action_l3 = partial(precedent,frame_middle,window)
-        action_l4 = partial(suivant,frame_middle,window)
+        action_l3 = partial(precedent, frame_middle, window)
+        action_l4 = partial(suivant, frame_middle, window)
 
-        B3 = Button(frame_middle, text="Précedent",width = 10,height=3 , command=action_l3)
-        B3.pack(side=LEFT,padx=50, pady=50,anchor=S)
-        B4 = Button(frame_middle, text="Suivant", width = 10,height=3, command=action_l4)
-        B4.pack(side=RIGHT,padx=50, pady=50,anchor=S)
+        B3 = Button(frame_middle, text="Précedent",
+                    width=10, height=3, command=action_l3)
+        B3.pack(side=LEFT, padx=50, pady=50, anchor=S)
+        B4 = Button(frame_middle, text="Suivant",
+                    width=10, height=3, command=action_l4)
+        B4.pack(side=RIGHT, padx=50, pady=50, anchor=S)
 
-        texteLabel = Label(frame_middle,bg="#528860", text = ""+str(nbdata)+"/"+str(nb_result) ,font=(
+        texteLabel = Label(frame_middle, bg="#528860", text=""+str(nbdata)+"/"+str(nb_result), font=(
             "Times New Roman", 20))
-        texteLabel.pack(side=BOTTOM,padx=0, pady=50,anchor=S)
+        texteLabel.pack(side=BOTTOM, padx=0, pady=50, anchor=S)
 
-        if type == 1 :
+        if type == 1:
             #-------------Nom-------------#
-            texteLabe2 = Label(frame_middle, bg="#528860" ,text = "Nom :",font=(
-            "Times New Roman", 20))
-            texteLabe2.place(relx=0.2, rely=0.2, height=30, width=100)
-            texteLabe2 = Label(frame_middle, bg="#528860", text = ""+str(tuple[0+dataf]) ,font=(
-            "Times New Roman", 20))
-            texteLabe2.place(relx=0.6, rely=0.2, height=30, width=100)
+            texteLabe2 = Label(frame_middle, bg="#528860", text="Nom :", font=(
+                "Times New Roman", 20))
+            texteLabe2.place(relx=0.01, rely=0.1, height=30, width=100)
+            texteLabe2 = Label(frame_middle, bg="#528860", text=""+str(tuple[0+dataf]), font=(
+                "Times New Roman", 20))
+            texteLabe2.place(relx=0.55, rely=0.1, height=30, width=100)
             #-----------Prénom------------#
-            texteLabe3 = Label(frame_middle, bg="#528860", text = "Prénom:" ,font=(
-            "Times New Roman", 20))
-            texteLabe3.place(relx=0.2, rely=0.4, height=30, width=100)
-            texteLabe3 = Label(frame_middle, bg="#528860", text = ""+str(tuple[1+dataf]) ,font=(
-            "Times New Roman", 20))
-            texteLabe3.place(relx=0.6, rely=0.4, height=30, width=100)
+            texteLabe3 = Label(frame_middle, bg="#528860", text="Prénom:", font=(
+                "Times New Roman", 20))
+            texteLabe3.place(relx=0.01, rely=0.15, height=30, width=100)
+            texteLabe3 = Label(frame_middle, bg="#528860", text=""+str(tuple[1+dataf]), font=(
+                "Times New Roman", 20))
+            texteLabe3.place(relx=0.55, rely=0.15, height=30, width=100)
             #----------Numéro-------------#
-            texteLabe4 = Label(frame_middle,width=2006,bg="#528860", text = ""+str(tuple[2+dataf]) ,font=(
-            "Times New Roman", 15))
-            texteLabe4.place(relx=0.6, rely=0.6, height=30, width=150)
-            texteLabe4 = Label(frame_middle,width=2006,bg="#528860", text = "Numéro:",font=(
-            "Times New Roman", 20))
-            texteLabe4.place(relx=0.2, rely=0.6, height=30, width=100)
+            texteLabe4 = Label(frame_middle, width=2006, bg="#528860", text=""+str(tuple[2+dataf]), font=(
+                "Times New Roman", 20))
+            texteLabe4.place(relx=0.55, rely=0.2, height=30, width=150)
+            texteLabe4 = Label(frame_middle, width=2006, bg="#528860", text="Numéro:", font=(
+                "Times New Roman", 20))
+            texteLabe4.place(relx=0.01, rely=0.2, height=30, width=100)
 
+        if type == 2:
+            #-------------Nom-------------#
+            texteLabe2 = Label(frame_middle, bg="#528860", text="Nom :", font=(
+                "Times New Roman", 20))
+            texteLabe2.place(relx=0.01, rely=0.1, height=30, width=100)
+            texteLabe2 = Label(frame_middle, bg="#528860", text=""+str(tuple[0+dataf]), font=(
+                "Times New Roman", 20))
+            texteLabe2.place(relx=0.55, rely=0.1, height=30, width=100)
+            #-----------Prénom------------#
+            texteLabe3 = Label(frame_middle, bg="#528860", text="Prénom:", font=(
+                "Times New Roman", 20))
+            texteLabe3.place(relx=0.01, rely=0.15, height=30, width=100)
+            texteLabe3 = Label(frame_middle, bg="#528860", text=""+str(tuple[1+dataf]), font=(
+                "Times New Roman", 20))
+            texteLabe3.place(relx=0.55, rely=0.15, height=30, width=100)
+            #----------Numéro-------------#
+            texteLabe4 = Label(frame_middle, width=2006, bg="#528860", text=""+str(tuple[2+dataf]), font=(
+                "Times New Roman", 20))
+            texteLabe4.place(relx=0.35, rely=0.2, height=30, width=250)
+            texteLabe4 = Label(frame_middle, width=2006, bg="#528860", text="Numéro:", font=(
+                "Times New Roman", 20))
+            texteLabe4.place(relx=0.01, rely=0.2, height=30, width=100)
+            #----------Adresse-------------#
+            texteLabe5 = Label(frame_middle, width=2006, bg="#528860", text=""+str(tuple[3+dataf]), font=(
+                "Times New Roman", 15))
+            texteLabe5.place(relx=0.35, rely=0.25, height=30, width=250)
+            texteLabe5 = Label(frame_middle, width=2006, bg="#528860", text="Adresse:", font=(
+                "Times New Roman", 20))
+            texteLabe5.place(relx=0.01, rely=0.25, height=30, width=100)
+            #----------github-------------#
+            texteLabe6 = Label(frame_middle, width=2006, bg="#528860", text=""+str(tuple[4+dataf]), font=(
+                "Times New Roman", 15))
+            texteLabe6.place(relx=0.35, rely=0.3, height=30, width=250)
+            texteLabe6 = Label(frame_middle, width=2006, bg="#528860", text="Github:", font=(
+                "Times New Roman", 20))
+            texteLabe6.place(relx=0.01, rely=0.3, height=30, width=100)
+            #----------linkedin-------------#
+            texteLabe7 = Label(frame_middle, width=2006, bg="#528860", text=""+str(tuple[5+dataf]), font=(
+                "Times New Roman", 15))
+            texteLabe7.place(relx=0.35, rely=0.35, height=30, width=250)
+            texteLabe7 = Label(frame_middle, width=2006, bg="#528860", text="Linkedin:", font=(
+                "Times New Roman", 20))
+            texteLabe7.place(relx=0.01, rely=0.35, height=30, width=100)
+
+            yscrollbar1 = Scrollbar(frame_middle)
+            yscrollbar1.place(relx=0.01, rely=0.45, height=200, width=20)
+            yscrollbar2 = Scrollbar(frame_middle)
+            yscrollbar2.place(relx=0.94, rely=0.45, height=200, width=20)
+
+            liste_comp = Listbox(frame_middle, font=(
+                "Times New Roman", 15))
+            liste_comp.place(relx=0.08, rely=0.45, height=200,
+                             width=140)
+            i = 6
+            while i < 6 + nbcomp[nbdata-1]:
+                liste_comp.insert(END, tuple[i+dataf])
+                i += 1
+
+            liste_form = Listbox(frame_middle, font=(
+                "Times New Roman", 15))
+            liste_form.place(relx=0.50, rely=0.45, height=200,
+                             width=170)
+
+            i = 6 + nbcomp[nbdata-1]
+            while i < 6 + nbcomp[nbdata-1] + nbforma[nbdata-1]:
+                liste_form.insert(END, tuple[i+dataf])
+                i += 1
+            liste_comp.config(yscrollcommand=yscrollbar1.set)
+            liste_form.config(yscrollcommand=yscrollbar2.set)
+    return frame_middle
+
+
+# Fpnction qui ecoute si un nouveau fichier est présent dans le dossier Reponses
+def listen():
+    global nb_result
+    global tuple
+    global type
+
+    time.sleep(10)
+    for file in os.listdir("Reponses"):
+        if file.endswith(".xml"):
+            with open("Reponses/"+file, "r") as f:
+                nb_result, tuple, type = readXML(f)
+            f.close()
+            os.remove("Reponses/"+file)
+            break
 
 
 #---------------------------------------------------MAIN-----------------------------------------------------#
-
 db, cursor = ressources.ConnectDB()
 ressources.ListeCompFromBase(cursor, listcomp)
 ressources.ListeFormaFromBase(cursor, listforma)
 ressources.DisconnectDB(cursor, db)
 
-fichiers = [f for f in listdir("Reponses") if isfile(join("Reponses", f))]
-for file in fichiers:
-    nb_result,tuple,type = readXML(file)
-    print(tuple)
-
-
 window = Tk()
 window.title('Programme metier')
 window.geometry("1080x720")
 window.minsize(1080, 720)
+window.maxsize(1080, 720)
 
 frame_left = Frame(window, bg="#8BC49A", bd=1, relief=SUNKEN)
 frame_left.pack(side=LEFT, expand=YES, fill=Y, anchor=NW)
@@ -294,8 +413,11 @@ list1 = Listbox(frame_left, selectmode=MULTIPLE,
 list2 = Listbox(frame_right, selectmode=MULTIPLE,
                 yscrollcommand=yscrollbar2.set)
 
-action_l1 = partial(selected_comp, list1)
-action_l2 = partial(selected_form, list2)
+frame_middle = frame_middle_init(window)
+
+
+action_l1 = partial(selected_comp, frame_middle, list1)
+action_l2 = partial(selected_form, frame_middle, list2)
 
 B1 = Button(frame_left, text="Recherche CV", command=action_l1)
 B1.pack(padx=20, pady=20)
@@ -315,7 +437,5 @@ for form_item in range(len(listforma)):
 
 yscrollbar1.config(command=list1.yview)
 yscrollbar2.config(command=list2.yview)
-
-frame_middle_init(window)
 
 window.mainloop()
