@@ -109,7 +109,7 @@ while(True) :
     # Attente de reception d'une question
     fic = waitFile() 
 
-    print(fic)
+    print(f"Nom du fichier : {fic}")
 
     # Lecture du fichier
     #fichier = open("Questions/"+fic, "r")
@@ -118,8 +118,25 @@ while(True) :
 
     typeReq,liReq = readXML(fic)
 
-    if(typeReq == LICOMP)
-        
+    # Requete de type competence
+    if(typeReq == LICOMP):
+        sql = ressources.reqLicomp(liReq)
+    # Requete de type fromation
+    elif(typeReq == LIFORMA):
+        sql = ressources.reqLiForma(liReq)
+
+    # Sinon erreur
+    else:
+        print("Problème rencontré :")
+        print("Le type de requête est invalide")
+        exit()
+    
+
+    req.execute(sql)
+    res = req.fetchall()
+
+    for p in res:
+        print(p)    
 
     
     break

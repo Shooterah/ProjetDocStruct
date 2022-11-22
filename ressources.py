@@ -76,9 +76,127 @@ def ListeFormaFromBase(cursor, listforma):
 
 # Envoie une requête a la bdd pour trouver les CV correspondants
 
-# Depuis une liste de competences
-def askFromComp(licomp):
-    sql = "SELECT Nom, Prenom, Mail, Tel, Linkedin, Github FROM 
+# Recupere l'id d'un candidat qui possede la competence 'comp'
+def idCandFromComp(comp):
+    sql = f"""
+        (SELECT idCand 
+        FROM candicomp 
+        WHERE idComp IN 
+            (SELECT idComp 
+            FROM competences 
+            WHERE NomComp 
+            LIKE '{comp}')
+        ) 
+    """
 
-    # SELECT * FROM `candidats`,`candicomp`,`competences` WHERE candidats.idCand = candicomp.idCand AND candicomp.idComp = competences.idComp AND competences.NomComp = "CSS"
-     
+    return sql
+
+# Creation d'une requete depuis une liste de competences
+def reqLicomp(licomp):
+
+    # Recupere le nombre de competences recherchees
+    nbComp = len(licomp)
+
+    # Init de la requete sql
+    sql = ""
+
+    # Si aucune competences n'est demandée, on retourne toutes les personnes
+    if nbComp == 0:
+        sql = """
+            SELECT * 
+            FROM candidats 
+        """
+    # Autrement
+    else:
+        # On attribut la derniere competence recherchee
+        sql = """
+            SELECT * 
+            FROM candidats 
+            WHERE idCand IN 
+        """ + idCandFromComp(licomp.pop()) # pop() retourne le dernier element de la liste et le supprime
+
+        # Si il existe d'autre competences, on les ajoute
+        for comp in licomp :
+            sql += """
+                AND idCand IN 
+            """ + idCandFromComp(comp)
+
+    return sql
+
+
+
+# Recupere l'id d'un candidat qui possede la formation 'Forma'
+def idCandFromForma(forma):
+    sql = f"""
+        (SELECT idCand 
+        FROM candiform 
+        WHERE idForm IN 
+            (SELECT idForm 
+            FROM formations 
+            WHERE NomForm 
+            LIKE '{forma}')
+        ) 
+    """
+
+    return sql
+
+# Creation d'une requete depuis une liste de formations
+def reqLiforma(liforma):
+
+    # Recupere le nombre de competences recherchees
+    nbForma = len(liforma)
+
+    # Init de la requete sql
+    sql = ""
+
+    # Si aucune competences n'est demandée, on retourne toutes les personnes
+    if nbForma == 0:
+        sql = """
+            SELECT * 
+            FROM candidats 
+        """
+    # Autrement
+    else:
+        # On attribut la derniere competence recherchee
+        sql = """
+            SELECT * 
+            FROM candidats 
+            WHERE idCand IN 
+        """ + idCandFromForma(liforma.pop()) # pop() retourne le dernier element de la liste et le supprime
+
+        # Si il existe d'autre competences, on les ajoute
+        for forma in liforma :
+            sql += """
+                AND idCand IN 
+            """ + idCandFromForma(forma)
+
+    return sql
+
+
+
+    
+
+
+
+
+
+
+# PAs rapide 
+#     
+#SELECT * 
+# FROM `candidats`,`candicomp`,`competences` 
+# WHERE candidats.idCand = candicomp.idCand 
+# AND candicomp.idComp = competences.idComp 
+# AND competences.NomComp in ("CSS","SQL") 
+# GROUP BY candidats.idCand 
+# HAVING COUNT(candidats.idCand)=2;
+
+# Rapide
+#
+# SELECT * 
+# FROM candidats WHERE idCand IN 
+#                         (SELECT idCand FROM candicomp WHERE idComp IN 
+#                         (SELECT idComp FROM competences WHERE NomComp LIKE 'CSS')) 
+#                AND idCand IN 
+#                         (SELECT idCand FROM candicomp WHERE idComp IN 
+#                         (SELECT idComp FROM competences WHERE NomComp LIKE 'SQL'));
