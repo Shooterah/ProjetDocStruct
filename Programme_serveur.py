@@ -17,8 +17,7 @@ from datetime import datetime
 from shutil import copy
 
 
-
-# Gestion des fichiers 
+# Gestion des fichiers
 from os import listdir, makedirs, remove
 from os.path import isfile, join, splitext, exists
 
@@ -33,31 +32,35 @@ LIFORMA = 2
 
 
 # Structure des reponses sql (position i de l'element):
-IDCAND   = 0
-NOM      = 1
-PRENOM   = 2
-EMAIL    = 3
-TEL      = 4
+IDCAND = 0
+NOM = 1
+PRENOM = 2
+EMAIL = 3
+TEL = 4
 LINKEDIN = 5
-GITHUB   = 6
+GITHUB = 6
 
 # +---------+
 # | Classes |
 # +---------+
 
 # Classe personne
-class personne: 
 
-    def __init__(self,i, n, p, t):
+
+class personne:
+
+    def __init__(self, i, n, p, t):
         self.id = i
-        self.nom = n   
+        self.nom = n
         self.prenom = p
         self.telephone = t
-        
+
 # Classe envoyeur/ auteur
+
+
 class envoyeur:
     def __init__(self, id, nom, date):
-        self.id = id  
+        self.id = id
         self.nom = nom
         self.date = date
 
@@ -73,41 +76,41 @@ class envoyeur:
 # | Fonctions |
 # +-----------+
 
-def waitFile() :
-    while(True) :
+def waitFile():
+    while (True):
         # Recupere la liste des [fichiers] presents dans le dossier "Questions"
-        fichiers = [f for f in listdir("Questions") if isfile(join("Questions", f))]
+        fichiers = [f for f in listdir(
+            "Questions") if isfile(join("Questions", f))]
         # Si la liste n'est pas vide : on verifie que l'extension est correcte
-        if fichiers :
-            # Et si l'extension est "xml" (Exigence de format pour la question) : 
+        if fichiers:
+            # Et si l'extension est "xml" (Exigence de format pour la question) :
             if (splitext(fichiers[0])[1] == ".xml"):
                 # Sortie de la boucle
                 break
 
         # Sinon attente de nouveau fichier
 
-    #Renvoie du fichier à traiter après la boucle
+    # Renvoie du fichier à traiter après la boucle
     return fichiers[0]
 
 
 # Fonction qui permet de lire un fichier
 def readXML(fic):
     # Creation de l'arbre dom depuis le xml
-    tree = xml.dom.minidom.parse("Questions/"+ fic)
+    tree = xml.dom.minidom.parse("Questions/" + fic)
     # Premier element de l'arbre
     elt = tree.documentElement
 
-    # Recupere les infos de l'envoyeur de la question    
+    # Recupere les infos de l'envoyeur de la question
     id = tree.getElementsByTagName("id")[0].childNodes[0].nodeValue
     auteur = tree.getElementsByTagName("auteur")[0].childNodes[0].nodeValue
     date = tree.getElementsByTagName("date")[0].childNodes[0].nodeValue
 
-    
     # Recupere le type de requete (Premier element de l'arbre)
     typereq = elt.getAttribute("typeQuestion")
 
     # Analyse de la requete en fonction de son type #
-      
+
     # Cv depuis les competences
     if typereq == "CompFromCv":
 
@@ -124,9 +127,8 @@ def readXML(fic):
             # childNodes = ce qui est contenu entre les balises <competence>,
             # nodeValue = la valeur de ce contenu
             liComp.append(comp.childNodes[0].nodeValue)
-    
-        return LICOMP,liComp, envoyeur(id,auteur,date)
 
+        return LICOMP, liComp, envoyeur(id, auteur, date)
 
     # Cv depuis les formations
     if typereq == "PersFromForma":
@@ -144,9 +146,8 @@ def readXML(fic):
             # childNodes = ce qui est contenu entre les balises <competence>,
             # nodeValue = la valeur de ce contenu
             liForma.append(forma.childNodes[0].nodeValue)
-    
-        return LIFORMA, liForma, envoyeur(id,auteur,date)
 
+        return LIFORMA, liForma, envoyeur(id, auteur, date)
 
 
 # Ajout d'un envoyeur dans un xml de reponse
@@ -163,7 +164,7 @@ def addEnv(doc, auteur):
     textAuteur = doc.createTextNode("SERVEUR")
     auteur.appendChild(textAuteur)
     env.appendChild(auteur)
-    
+
     # ajout ligne date et de son texte
     now = datetime.now()
     current_time = now.strftime("%Y-%m-%d")
@@ -171,7 +172,7 @@ def addEnv(doc, auteur):
     textdate = doc.createTextNode(current_time)
     date.appendChild(textdate)
     env.appendChild(date)
-   
+
     return env
 
 
@@ -190,7 +191,7 @@ def addCvsComp(doc, liCVs, req):
 
     # Ajoute le nombre de cv trouvé
     CVs = doc.createElement("CVS")
-    CVs.setAttribute("nb",str(len(liCVs)))
+    CVs.setAttribute("nb", str(len(liCVs)))
 
     # Analyse de la liste de résultats
     for cv in liCVs:
@@ -199,7 +200,7 @@ def addCvsComp(doc, liCVs, req):
         CV = doc.createElement("CV")
 
         # Stockage des infomations
-        p = personne(cv[IDCAND],cv[PRENOM],cv[NOM],cv[TEL])
+        p = personne(cv[IDCAND], cv[PRENOM], cv[NOM], cv[TEL])
         # Si la requete est competence, on souhaite avoir le mail et le linkedin et le github
         mailCand = cv[EMAIL]
         linkedinCand = cv[LINKEDIN]
@@ -253,15 +254,15 @@ def addCvsComp(doc, liCVs, req):
         sqlComp = ressources.compOfCand(p.id)
         sqlForma = ressources.formaOfCand(p.id)
 
-        #Execution des requetes
+        # Execution des requetes
         req.execute(sqlComp)
         persComp = req.fetchall()
         req.execute(sqlForma)
         persForma = req.fetchall()
 
-        # Ajout des competences 
+        # Ajout des competences
         competences = doc.createElement("competences")
-        
+
         for comp in persComp:
             competence = doc.createElement("competence")
             txtComp = doc.createTextNode(str(comp[0]))
@@ -272,9 +273,9 @@ def addCvsComp(doc, liCVs, req):
         # Ajout des competences au CV
         CV.appendChild(competences)
 
-        # Ajout des Formations 
+        # Ajout des Formations
         formations = doc.createElement("formations")
-        
+
         for forma in persForma:
             formation = doc.createElement("formation")
             txtForma = doc.createTextNode(str(forma[0]))
@@ -285,27 +286,22 @@ def addCvsComp(doc, liCVs, req):
         # Ajout des Formations au CV
         CV.appendChild(formations)
 
-
         CVs.appendChild(CV)
 
-
-
-
     return CVs
-
 
 
 # Ajoute les Cvs dans une reponse de type Formations
 def addCvsForma(doc, liCVs):
     # Ajoute le nombre de cv trouvé
     personnes = doc.createElement("personnes")
-    personnes.setAttribute("nb",str(len(liCVs)))
+    personnes.setAttribute("nb", str(len(liCVs)))
 
     # Analyse de la liste de résultats
     for cv in liCVs:
 
         # Stockage des infomations
-        p = personne(cv[PRENOM],cv[NOM],cv[TEL])
+        p = personne(cv[IDCAND], cv[PRENOM], cv[NOM], cv[TEL])
 
         pers = doc.createElement("personne")
 
@@ -327,14 +323,10 @@ def addCvsForma(doc, liCVs):
         pers.appendChild(prenom)
         pers.appendChild(tel)
 
-        
         # Ajout de la personne au tableau personnes
         personnes.appendChild(pers)
 
-
     return personnes
-
-
 
 
 # Création d'un document xml de reponse
@@ -347,28 +339,27 @@ def repXML(typeRep, auteur, liCVs, req):
         tree.setAttribute("typeReponse", "RepCompFromCv")
     elif typeRep == LIFORMA:
         tree.setAttribute("typeReponse", "RepPersFromForma")
-    else :
+    else:
         print("Problème de type de réponse dans la fonction repXML(typeRep)")
         exit()
 
     # Ajout de l'auteur
-    tree.appendChild(addEnv(doc,auteur))
+    tree.appendChild(addEnv(doc, auteur))
 
     # Ajout du destinataire
-    tree.appendChild(addDest(doc,auteur))
+    tree.appendChild(addDest(doc, auteur))
 
     # Ajout de la liste de CVs
 
-    if typeRep == LICOMP:    
-        tree.appendChild(addCvsComp(doc,liCVs,req))
+    if typeRep == LICOMP:
+        tree.appendChild(addCvsComp(doc, liCVs, req))
     elif typeRep == LIFORMA:
-        tree.appendChild(addCvsForma(doc,liCVs))
-    else :
+        tree.appendChild(addCvsForma(doc, liCVs))
+    else:
         print("Problème de type de réponse dans la fonction repXML(typeRep)")
         exit()
 
     return doc
-    
 
 
 # Creation d'un fichier de nom namefile depuis un arbre xml
@@ -376,8 +367,6 @@ def creaFic(doc, nomFic):
     myFile = open("Reponses/" + nomFic, "w+")
     myFile.write(doc.toprettyxml())
     myFile.close
-    
-
 
 
 ######################################
@@ -385,8 +374,6 @@ def creaFic(doc, nomFic):
 #             ___MAIN___             #
 #                                    #
 ######################################
-
-
 # Init la bdd et les message de requete
 db, req = ressources.ConnectDB()
 
@@ -405,17 +392,17 @@ if not exists("Questions"):
     # Alors création
     makedirs("Questions")
 
-while(True) :
+while (True):
 
     # Attente de reception d'une question
-    fic = waitFile() 
+    fic = waitFile()
 
     print(f"Nom du fichier : {fic}")
 
     # Lecture du fichier
     #fichier = open("Questions/"+fic, "r")
-    #print(fichier.read())
-    #fichier.close()
+    # print(fichier.read())
+    # fichier.close()
 
     typeReq, liReq, auteur = readXML(fic)
 
@@ -423,11 +410,11 @@ while(True) :
     typeRep = typeReq
 
     # Requete de type competence
-    if(typeReq == LICOMP):
+    if (typeReq == LICOMP):
         sql = ressources.reqLicomp(liReq)
-        
+
     # Requete de type fromation
-    elif(typeReq == LIFORMA):
+    elif (typeReq == LIFORMA):
         sql = ressources.reqLiForma(liReq)
 
     # Sinon erreur
@@ -435,7 +422,7 @@ while(True) :
         print("Problème rencontré :")
         print("Le type de requête est invalide")
         exit()
-    
+
     # Execution de la requete sql
     req.execute(sql)
     liCVs = req.fetchall()
@@ -444,13 +431,13 @@ while(True) :
     nbCVs = len(liCVs)
 
     # Affichage de l'auteur
-    #auteur.afficher()
-    
+    # auteur.afficher()
+
     # Création du DOM
-    doc = repXML(typeRep,auteur,liCVs, req)
+    doc = repXML(typeRep, auteur, liCVs, req)
 
     # Création du fichier reponse
-    creaFic(doc,fic)
+    creaFic(doc, fic)
 
     # Ajout de la question dans l'historique
     copy(f"Questions/{fic}", f"HistoQuestions/{fic}")
@@ -458,9 +445,9 @@ while(True) :
     # Suppression du fichier question
     remove(f"Questions/{fic}")
 
-    #break
+    # break
 
 # Deconnexion de la bdd
-ressources.DisconnectDB(req,db)
+ressources.DisconnectDB(req, db)
 
 exit()
