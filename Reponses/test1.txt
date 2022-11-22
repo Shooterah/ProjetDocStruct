@@ -1,0 +1,21 @@
+<?xml version="1.0" ?>
+<reponse typeReponse="RepPersFromForma">
+	<envoyeur>
+		<id>1</id>
+		<auteur>SERVEUR</auteur>
+		<date>2022-11-22</date>
+	</envoyeur>
+	<destinataire>DESKTOP-RFEAHRJ</destinataire>
+	<personnes nb="2">
+		<personne>
+			<nom>Jean</nom>
+			<prenom>Monnet</prenom>
+			<telephone>0755800268</telephone>
+		</personne>
+		<personne>
+			<nom>Arthur</nom>
+			<prenom>20</prenom>
+			<telephone>0770728992</telephone>
+		</personne>
+	</personnes>
+</reponse>

@@ -141,7 +141,7 @@ def idCandFromForma(forma):
     return sql
 
 # Creation d'une requete depuis une liste de formations
-def reqLiforma(liforma):
+def reqLiForma(liforma):
 
     # Recupere le nombre de competences recherchees
     nbForma = len(liforma)
