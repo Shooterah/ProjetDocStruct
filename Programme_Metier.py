@@ -1,4 +1,5 @@
 import os
+import shutil
 import ressources
 from tkinter import *
 from functools import partial
@@ -126,7 +127,7 @@ def readXML(namefile):
             prenom = prenom.item(0).firstChild.nodeValue
             telephone = pers.getElementsByTagName("telephone")
             telephone = telephone.item(0).firstChild.nodeValue
-            #ajout des données dans la liste
+            # ajout des données dans la liste
             tuplepers.append(nom)
             tuplepers.append(prenom)
             tuplepers.append(telephone)
@@ -153,7 +154,7 @@ def readXML(namefile):
             github = github.item(0).firstChild.nodeValue
             linkedin = cv.getElementsByTagName("linkedin")
             linkedin = linkedin.item(0).firstChild.nodeValue
-            #ajout des données dans la liste
+            # ajout des données dans la liste
             tupleCV.append(nom)
             tupleCV.append(prenom)
             tupleCV.append(telephone)
@@ -211,7 +212,6 @@ def selected_form(frame_middle, list):
 def suivant(frame_middle, window):
     global dataf
     global nbdata
-    global nb_result
     global nbcomp
     global nbforma
 
@@ -227,12 +227,14 @@ def suivant(frame_middle, window):
             dataf = dataf + 6+nbcomp[nbdata-1]+nbforma[nbdata-1]
             frame_middle.destroy()
             frame_middle_init(window)
+    print("\n" + str(nbdata))
 
 
 def precedent(frame_middle, window):
     global dataf
     global nbdata
-    global nb_result
+    global nbcomp
+    global nbforma
     if type == 1:
         if nbdata > 1:
             nbdata = nbdata - 1
@@ -245,6 +247,12 @@ def precedent(frame_middle, window):
             dataf = dataf - (6+nbcomp[nbdata-1]+nbforma[nbdata-1])
             frame_middle.destroy()
             frame_middle_init(window)
+    print("\n" + str(nbdata))
+
+
+def refresh(frame_middle, window):
+    frame_middle.destroy()
+    frame_middle_init(window)
 
 
 def frame_middle_init(window):
@@ -260,20 +268,27 @@ def frame_middle_init(window):
         "Times New Roman", 20), padx=2000, pady=0)
     label3.pack()
 
+    # fonction pour rafraichir depuis un bouton
+    refresh_action = partial(refresh, frame_middle, window)
+
+    B5 = Button(frame_middle, text="Actualiser",
+                width=10, height=3, command=refresh_action)
+    B5.pack(side=BOTTOM, padx=0, pady=25, anchor=S)
+
     if nb_result >= 1:
         action_l3 = partial(precedent, frame_middle, window)
         action_l4 = partial(suivant, frame_middle, window)
 
         B3 = Button(frame_middle, text="Précedent",
                     width=10, height=3, command=action_l3)
-        B3.pack(side=LEFT, padx=50, pady=50, anchor=S)
+        B3.pack(side=LEFT, padx=50, pady=10, anchor=S)
         B4 = Button(frame_middle, text="Suivant",
                     width=10, height=3, command=action_l4)
-        B4.pack(side=RIGHT, padx=50, pady=50, anchor=S)
+        B4.pack(side=RIGHT, padx=50, pady=10, anchor=S)
 
         texteLabel = Label(frame_middle, bg="#528860", text=""+str(nbdata)+"/"+str(nb_result), font=(
             "Times New Roman", 20))
-        texteLabel.pack(side=BOTTOM, padx=0, pady=50, anchor=S)
+        texteLabel.pack(side=BOTTOM, padx=0, pady=10, anchor=S)
 
         if type == 1:
             #-------------Nom-------------#
@@ -380,7 +395,6 @@ def listen():
     global dataf
     global nbdata
 
-
     time.sleep(4)
     for file in os.listdir("Reponses"):
         if file.endswith(".xml"):
@@ -395,6 +409,8 @@ def listen():
                 tuple = []
                 nb_result, tuple, type = readXML(f)
             f.close()
+            # déplacer le fichier dans le dossier Histo_Rep
+            shutil.move("Reponses/"+file, "Histo_Rep/"+file)
             break
 
 
