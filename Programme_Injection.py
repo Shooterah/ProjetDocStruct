@@ -136,11 +136,11 @@ def afficheCV():
                 text = page.extract_text()
                 getDataCompetence(text)
                 getDataTelNumber(text)
+                getDiplome(text)
                 mail = getDataMail(text)
                 prenom, nom = getPrenomNom(text)
                 linkedin = getLinkedin(text)
                 github = getGithub(text)
-                diplome = getDiplome(text)
                 if prenom != "":
                     print("Prénom : " + prenom)
                 else:
@@ -175,6 +175,7 @@ def afficheCV():
                     print("Numéro : Inconnu")
                 print(
                     "---------------------------------------------------------------------")
+                diplomeTmp.clear()
                 listeCompétenceTmp.clear()
                 ListeNuméroTypeTmp.clear()
 
@@ -185,12 +186,12 @@ def CvtoDB(cursor, db):
             for page in pdf.pages:
                 text = page.extract_text()
                 getDataTelNumber(text)
+                getDataCompetence(text)
+                getDiplome(text)
                 mail = getDataMail(text)
                 prenom, nom = getPrenomNom(text)
                 linkedin = getLinkedin(text)
                 github = getGithub(text)
-                getDataCompetence(text)
-                getDiplome(text)
                 ressources.sendToDB(cursor, db, prenom, nom, mail, ListeNuméroTypeTmp,
                                     linkedin, github, listeCompétenceTmp, diplomeTmp)
                 diplomeTmp.clear()
