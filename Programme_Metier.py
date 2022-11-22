@@ -19,7 +19,7 @@ nbforma = [0 for i in range(100)]
 nb_result = 0
 type = 0
 nbdata = 1
-tuple = ()
+tuple = []
 
 
 def CreationXMLComp(listQuestion, namefile):
@@ -31,7 +31,7 @@ def CreationXMLComp(listQuestion, namefile):
     envoyeur = doc.createElement("envoyeur")
     # ajout ligne id et de son texte 1
     id = doc.createElement("id")
-    textid = doc.createTextNode("1")
+    textid = doc.createTextNode(str(idfile))
     id.appendChild(textid)
     envoyeur.appendChild(id)
     # ajout ligne auteur et de son texte
@@ -73,7 +73,7 @@ def CreationXMLForm(listQuestion, namefile):
     envoyeur = doc.createElement("envoyeur")
     # ajout ligne id et de son texte 1
     id = doc.createElement("id")
-    textid = doc.createTextNode("1")
+    textid = doc.createTextNode(str(idfile))
     id.appendChild(textid)
     envoyeur.appendChild(id)
     # ajout ligne auteur et de son texte
@@ -116,7 +116,7 @@ def readXML(namefile):
 
         i = 0
         type = 1
-        tuplepers = ()
+        tuplepers = []
 
         personne = tree.getElementsByTagName("personne")
         for pers in personne:
@@ -126,7 +126,10 @@ def readXML(namefile):
             prenom = prenom.item(0).firstChild.nodeValue
             telephone = pers.getElementsByTagName("telephone")
             telephone = telephone.item(0).firstChild.nodeValue
-            tuplepers = tuplepers + (nom, prenom, telephone)
+            #ajout des données dans la liste
+            tuplepers.append(nom)
+            tuplepers.append(prenom)
+            tuplepers.append(telephone)
             i = i+1
         return i, tuplepers, type
 
@@ -134,7 +137,7 @@ def readXML(namefile):
 
         j = 0
         type = 2
-        tupleCV = ()
+        tupleCV = []
 
         CV = tree.getElementsByTagName("CV")
         for cv in CV:
@@ -150,18 +153,23 @@ def readXML(namefile):
             github = github.item(0).firstChild.nodeValue
             linkedin = cv.getElementsByTagName("linkedin")
             linkedin = linkedin.item(0).firstChild.nodeValue
-            tupleCV = tupleCV + (nom, prenom, telephone,
-                                 mail, github, linkedin)
+            #ajout des données dans la liste
+            tupleCV.append(nom)
+            tupleCV.append(prenom)
+            tupleCV.append(telephone)
+            tupleCV.append(mail)
+            tupleCV.append(github)
+            tupleCV.append(linkedin)
             competence = cv.getElementsByTagName("competence")
             for comp in competence:
                 comp = comp.firstChild.nodeValue
-                tupleCV = tupleCV + (comp,)
+                tupleCV.append(comp)
                 nbcomp[j] = nbcomp[j]+1
 
             formation = cv.getElementsByTagName("formation")
             for form in formation:
                 form = form.firstChild.nodeValue
-                tupleCV = tupleCV + (form,)
+                tupleCV.append(form)
                 nbforma[j] = nbforma[j]+1
             j = j+1
         return j, tupleCV, type
@@ -195,6 +203,7 @@ def selected_form(frame_middle, list):
     listQuestion.clear()
     list.selection_clear(0, END)
     listen()
+    # refresh the frame
     frame_middle.destroy()
     frame_middle_init(window)
 
@@ -366,11 +375,24 @@ def listen():
     global nb_result
     global tuple
     global type
+    global nbcomp
+    global nbforma
+    global dataf
+    global nbdata
+
 
     time.sleep(10)
     for file in os.listdir("Reponses"):
         if file.endswith(".xml"):
             with open("Reponses/"+file, "r") as f:
+                # reset des variables
+                dataf = 0
+                nbcomp = [0 for i in range(100)]
+                nbforma = [0 for i in range(100)]
+                nb_result = 0
+                type = 0
+                nbdata = 1
+                tuple = []
                 nb_result, tuple, type = readXML(f)
             f.close()
             os.remove("Reponses/"+file)
