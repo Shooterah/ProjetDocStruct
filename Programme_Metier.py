@@ -223,8 +223,8 @@ def suivant(frame_middle, window):
             frame_middle_init(window)
     if type == 2:
         if nbdata < nb_result:
-            nbdata = nbdata + 1
             dataf = dataf + 6+nbcomp[nbdata-1]+nbforma[nbdata-1]
+            nbdata = nbdata + 1
             frame_middle.destroy()
             frame_middle_init(window)
     print("\n" + str(nbdata))
