@@ -172,6 +172,26 @@ def reqLiForma(liforma):
 
     return sql
 
+# Creation d'une requete pour obtenir toutes les formations d'une personne (depuis son id)
+def formaOfCand(id):
+    sql = f"""
+        SELECT f.NomForm
+        FROM candidats c
+        INNER JOIN candiform cf ON c.idCand = cf.idCand
+        INNER JOIN formations f ON cf.idform = f.idForm
+        WHERE c.idCand = {id};
+    """
+    return sql
+
+# Creation d'une requete pour obtenir toutes les competences d'une personne (depuis son id)
+def compOfCand(id):
+    sql = f"""
+    SELECT NomComp
+    FROM competences, candicomp
+    WHERE competences.idComp = candicomp.idComp
+    AND candicomp.idCand = {id};
+    """
+    return sql
 
 
     

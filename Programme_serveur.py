@@ -13,11 +13,14 @@ import xml.dom.minidom
 # Recuperer la date actuelle
 from datetime import datetime
 
+# PErmet de copier un fichier
+from shutil import copy
+
 
 
 # Gestion des fichiers 
-from os import listdir
-from os.path import isfile, join, splitext
+from os import listdir, makedirs, remove
+from os.path import isfile, join, splitext, exists
 
 # +------------+
 # | Constantes |
@@ -45,7 +48,8 @@ GITHUB   = 6
 # Classe personne
 class personne: 
 
-    def __init__(self, n, p, t):
+    def __init__(self,i, n, p, t):
+        self.id = i
         self.nom = n   
         self.prenom = p
         self.telephone = t
@@ -182,7 +186,7 @@ def addDest(doc, auteur):
 
 
 # Ajoute les Cvs dans une reponse de type Competence
-def addCvsComp(doc, liCVs):
+def addCvsComp(doc, liCVs, req):
 
     # Ajoute le nombre de cv trouvé
     CVs = doc.createElement("CVS")
@@ -195,7 +199,7 @@ def addCvsComp(doc, liCVs):
         CV = doc.createElement("CV")
 
         # Stockage des infomations
-        p = personne(cv[PRENOM],cv[NOM],cv[TEL])
+        p = personne(cv[IDCAND],cv[PRENOM],cv[NOM],cv[TEL])
         # Si la requete est competence, on souhaite avoir le mail et le linkedin et le github
         mailCand = cv[EMAIL]
         linkedinCand = cv[LINKEDIN]
@@ -245,6 +249,41 @@ def addCvsComp(doc, liCVs):
         # Ajout du linkedin au CV
         CV.appendChild(github)
 
+        # Creation de requete pour la personne
+        sqlComp = ressources.compOfCand(p.id)
+        sqlForma = ressources.formaOfCand(p.id)
+
+        #Execution des requetes
+        req.execute(sqlComp)
+        persComp = req.fetchall()
+        req.execute(sqlForma)
+        persForma = req.fetchall()
+
+        # Ajout des competences 
+        competences = doc.createElement("competences")
+        
+        for comp in persComp:
+            competence = doc.createElement("competence")
+            txtComp = doc.createTextNode(str(comp[0]))
+            competence.appendChild(txtComp)
+            # Ajout à la liste de compétences
+            competences.appendChild(competence)
+
+        # Ajout des competences au CV
+        CV.appendChild(competences)
+
+        # Ajout des Formations 
+        formations = doc.createElement("formations")
+        
+        for forma in persForma:
+            formation = doc.createElement("formation")
+            txtForma = doc.createTextNode(str(forma[0]))
+            formation.appendChild(txtForma)
+            # Ajout à la liste de compétences
+            formations.appendChild(formation)
+
+        # Ajout des Formations au CV
+        CV.appendChild(formations)
 
 
         CVs.appendChild(CV)
@@ -299,7 +338,7 @@ def addCvsForma(doc, liCVs):
 
 
 # Création d'un document xml de reponse
-def repXML(typeRep, auteur, liCVs):
+def repXML(typeRep, auteur, liCVs, req):
     # Creation du doc
     doc = xml.dom.minidom.parseString("<reponse/>")
     # Init de l'abre dom
@@ -321,7 +360,7 @@ def repXML(typeRep, auteur, liCVs):
     # Ajout de la liste de CVs
 
     if typeRep == LICOMP:    
-        tree.appendChild(addCvsComp(doc,liCVs))
+        tree.appendChild(addCvsComp(doc,liCVs,req))
     elif typeRep == LIFORMA:
         tree.appendChild(addCvsForma(doc,liCVs))
     else :
@@ -336,9 +375,8 @@ def repXML(typeRep, auteur, liCVs):
 def creaFic(doc, nomFic):
     myFile = open("Reponses/" + nomFic, "w+")
     myFile.write(doc.toprettyxml())
+    myFile.close
     
-
-
 
 
 
@@ -351,6 +389,21 @@ def creaFic(doc, nomFic):
 
 # Init la bdd et les message de requete
 db, req = ressources.ConnectDB()
+
+# Si le repertoire Hitorque de squestions n'existe pas
+if not exists("HistoQuestions"):
+    # Alors création
+    makedirs("HistoQuestions")
+
+# Si le repertoire de reponses n'existe pas
+if not exists("Reponses"):
+    # Alors création
+    makedirs("Reponses")
+
+# Si le repertoire de questions n'existe pas
+if not exists("Questions"):
+    # Alors création
+    makedirs("Questions")
 
 while(True) :
 
@@ -372,6 +425,7 @@ while(True) :
     # Requete de type competence
     if(typeReq == LICOMP):
         sql = ressources.reqLicomp(liReq)
+        
     # Requete de type fromation
     elif(typeReq == LIFORMA):
         sql = ressources.reqLiForma(liReq)
@@ -389,25 +443,22 @@ while(True) :
     # Le nombre de CVs correspondant
     nbCVs = len(liCVs)
 
-    auteur.afficher()
+    # Affichage de l'auteur
+    #auteur.afficher()
     
-    doc = repXML(typeRep,auteur,liCVs)
+    # Création du DOM
+    doc = repXML(typeRep,auteur,liCVs, req)
 
+    # Création du fichier reponse
     creaFic(doc,fic)
 
-    #for cv in liCVs:
-        # #print(cv)
-        # # Stockage des infomations
-        # p = personne(cv[PRENOM],cv[NOM],cv[TEL])
-        # # Si la requete est competence, on souhaite avoir le mail et le tel
-        # if (typeReq == LICOMP):
-        #     mail = cv[EMAIL]
-        #     tel = cv[TEL]
+    # Ajout de la question dans l'historique
+    copy(f"Questions/{fic}", f"HistoQuestions/{fic}")
 
+    # Suppression du fichier question
+    remove(f"Questions/{fic}")
 
-            
-    
-    break
+    #break
 
 # Deconnexion de la bdd
 ressources.DisconnectDB(req,db)
