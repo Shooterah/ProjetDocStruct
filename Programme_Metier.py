@@ -381,7 +381,7 @@ def listen():
     global nbdata
 
 
-    time.sleep(10)
+    time.sleep(4)
     for file in os.listdir("Reponses"):
         if file.endswith(".xml"):
             with open("Reponses/"+file, "r") as f:
@@ -395,7 +395,6 @@ def listen():
                 tuple = []
                 nb_result, tuple, type = readXML(f)
             f.close()
-            os.remove("Reponses/"+file)
             break
 
 

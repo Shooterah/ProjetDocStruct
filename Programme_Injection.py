@@ -190,9 +190,10 @@ def CvtoDB(cursor, db):
                 linkedin = getLinkedin(text)
                 github = getGithub(text)
                 getDataCompetence(text)
-                diplome = getDiplome(text)
+                getDiplome(text)
                 ressources.sendToDB(cursor, db, prenom, nom, mail, ListeNuméroTypeTmp,
-                                    linkedin, github, listeCompétenceTmp, diplome)
+                                    linkedin, github, listeCompétenceTmp, diplomeTmp)
+                diplomeTmp.clear()
                 listeCompétenceTmp.clear()
                 ListeNuméroTypeTmp.clear()
 

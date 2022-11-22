@@ -393,7 +393,7 @@ while(True) :
     
     doc = repXML(typeRep,auteur,liCVs)
 
-    creaFic(doc, "test1.txt")
+    creaFic(doc,fic)
 
     #for cv in liCVs:
         # #print(cv)
