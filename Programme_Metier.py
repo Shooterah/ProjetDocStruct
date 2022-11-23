@@ -285,7 +285,7 @@ def frame_middle_init(window):
         B4.pack(side=RIGHT, padx=50, pady=10, anchor=S)
 
         texteLabel = Label(frame_middle, bg="#528860", text=""+str(nbdata)+"/"+str(nb_result), font=(
-            "Times New Roman", 20))
+            "Times New Roman", 15))
         texteLabel.pack(side=BOTTOM, padx=0, pady=10, anchor=S)
 
         if type == 1:
@@ -325,7 +325,7 @@ def frame_middle_init(window):
             texteLabe3.place(relx=0.01, rely=0.15, height=30, width=100)
             texteLabe3 = Label(frame_middle, bg="#528860", text=""+str(tuple[1+dataf]), font=(
                 "Times New Roman", 20))
-            texteLabe3.place(relx=0.55, rely=0.15, height=30, width=100)
+            texteLabe3.place(relx=0.45, rely=0.15, height=30, width=200)
             #----------Numéro-------------#
             texteLabe4 = Label(frame_middle, width=2006, bg="#528860", text=""+str(tuple[2+dataf]), font=(
                 "Times New Roman", 20))
@@ -349,7 +349,7 @@ def frame_middle_init(window):
             texteLabe6.place(relx=0.01, rely=0.3, height=30, width=100)
             #----------linkedin-------------#
             texteLabe7 = Label(frame_middle, width=2006, bg="#528860", text=""+str(tuple[5+dataf]), font=(
-                "Times New Roman", 15))
+                "Times New Roman", 10))
             texteLabe7.place(relx=0.35, rely=0.35, height=30, width=250)
             texteLabe7 = Label(frame_middle, width=2006, bg="#528860", text="Linkedin:", font=(
                 "Times New Roman", 20))
