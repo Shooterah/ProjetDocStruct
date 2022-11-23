@@ -302,7 +302,7 @@ def frame_middle_init(window):
             texteLabe3.place(relx=0.01, rely=0.15, height=30, width=100)
             texteLabe3 = Label(frame_middle, bg="#528860", text=""+str(tuple[1+dataf]), font=(
                 "Times New Roman", 20))
-            texteLabe3.place(relx=0.55, rely=0.15, height=30, width=100)
+            texteLabe3.place(relx=0.45, rely=0.15, height=30, width=200)
             #----------Numéro-------------#
             texteLabe4 = Label(frame_middle, width=2006, bg="#528860", text=""+str(tuple[2+dataf]), font=(
                 "Times New Roman", 20))
