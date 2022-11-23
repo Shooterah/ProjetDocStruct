@@ -122,6 +122,8 @@ def verifPrenomNom(p, n, m):
         prenom += "[?]"
         nom += "[?]"
 
+    prenom = prenom.title()
+
     #print(prenom)
     #print(nom)
     return prenom, nom.upper()
