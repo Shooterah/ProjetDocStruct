@@ -410,7 +410,7 @@ def listen():
                 nb_result, tuple, type = readXML(f)
             f.close()
             # déplacer le fichier dans le dossier Histo_Rep
-            shutil.move("Reponses/"+file, "Histo_Rep/"+file)
+            shutil.move("Reponses/"+file, "HistoReponses/"+file)
             break
 
 
