@@ -420,8 +420,8 @@ ressources.DisconnectDB(cursor, db)
 
 window = Tk()
 window.title('Programme metier')
-window.geometry("1080x720")
-window.minsize(1080, 720)
+window.geometry("720x480")
+window.minsize(200, 100)
 window.maxsize(1080, 720)
 
 frame_left = Frame(window, bg="#8BC49A", bd=1, relief=SUNKEN)
