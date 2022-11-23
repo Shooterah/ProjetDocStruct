@@ -393,7 +393,7 @@ def listen():
     global dataf
     global nbdata
 
-    time.sleep(4)
+    time.sleep(1)
     for file in os.listdir("Reponses"):
         if file.endswith(".xml"):
             with open("Reponses/"+file, "r") as f:
@@ -456,6 +456,7 @@ action_l2 = partial(selected_form, frame_middle, list2)
 
 B1 = Button(frame_left, text="Recherche CV", command=action_l1)
 B1.pack(padx=20, pady=20)
+
 B2 = Button(frame_right, text="Recherche Personnes", command=action_l2)
 B2.pack(padx=20, pady=20)
 
