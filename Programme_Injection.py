@@ -100,29 +100,31 @@ def getPrenomNom(text):
                     envoisNom = 1
 
 # Verification du nom via le mail
-def verifPrenomNom(prenom, nom, mail):
+def verifPrenomNom(p, n, m):
     # Retire le '@'
-    debut = mail.split("@")[0]
+    d = m.split("@")[0]
     #print(debut)
+    prenom = p.lower()
+    nom = n.lower()
+    debut = d.lower()
 
-    # Si l'adresse est de forme nom.prenom
+    # Si l'adresse est de forme prenom.nom
     infos = debut.split(".")
     if (len(infos) == 2):
-        if (prenom == infos[0]):
+        if(prenom == infos[0]):
             nom = infos[1]
-        elif (prenom == infos[1]):
+        elif(prenom == infos[1]):
             nom = infos[0]
         else:
             prenom = infos[0]
             nom = infos[1]
-
     else:
-        prenom += " [?]"
-        nom += " [?]"
+        prenom += "[?]"
+        nom += "[?]"
 
     #print(prenom)
     #print(nom)
-    return prenom, nom
+    return prenom, nom.upper()
 
 # Function that get the linkedin url from the text if it exist
 
@@ -163,8 +165,8 @@ def afficheCV():
                 getDataTelNumber(text)
                 getDiplome(text)
                 mail = getDataMail(text)
-                prenom, nom = getPrenomNom(text)
-                prenom, nom = verifPrenomNom(prenom, nom, mail)
+                p, n = getPrenomNom(text)
+                prenom, nom = verifPrenomNom(p, n, mail)
                 linkedin = getLinkedin(text)
                 github = getGithub(text)
                 if prenom != "":
@@ -215,7 +217,8 @@ def CvtoDB(cursor, db):
                 getDataCompetence(text)
                 getDiplome(text)
                 mail = getDataMail(text)
-                prenom, nom = getPrenomNom(text)
+                p, n = getPrenomNom(text)
+                prenom, nom = verifPrenomNom(p, n, mail)
                 linkedin = getLinkedin(text)
                 github = getGithub(text)
                 ressources.sendToDB(cursor, db, prenom, nom, mail, ListeNuméroTypeTmp,
