@@ -382,6 +382,11 @@ if not exists("HistoQuestions"):
     # Alors création
     makedirs("HistoQuestions")
 
+# Si le repertoire Hitorque de squestions n'existe pas
+if not exists("HistoReponses"):
+    # Alors création
+    makedirs("HistoReponses")
+
 # Si le repertoire de reponses n'existe pas
 if not exists("Reponses"):
     # Alors création
