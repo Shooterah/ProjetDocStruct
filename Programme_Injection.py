@@ -99,6 +99,31 @@ def getPrenomNom(text):
                     monPrenom = prenom
                     envoisNom = 1
 
+# Verification du nom via le mail
+def verifPrenomNom(prenom, nom, mail):
+    # Retire le '@'
+    debut = mail.split("@")[0]
+    #print(debut)
+
+    # Si l'adresse est de forme nom.prenom
+    infos = debut.split(".")
+    if (len(infos) == 2):
+        if (prenom == infos[0]):
+            nom = infos[1]
+        elif (prenom == infos[1]):
+            nom = infos[0]
+        else:
+            prenom = infos[0]
+            nom = infos[1]
+
+    else:
+        prenom += " [?]"
+        nom += " [?]"
+
+    #print(prenom)
+    #print(nom)
+    return prenom, nom
+
 # Function that get the linkedin url from the text if it exist
 
 
@@ -139,6 +164,7 @@ def afficheCV():
                 getDiplome(text)
                 mail = getDataMail(text)
                 prenom, nom = getPrenomNom(text)
+                prenom, nom = verifPrenomNom(prenom, nom, mail)
                 linkedin = getLinkedin(text)
                 github = getGithub(text)
                 if prenom != "":
