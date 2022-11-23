@@ -227,7 +227,6 @@ def suivant(frame_middle, window):
             nbdata = nbdata + 1
             frame_middle.destroy()
             frame_middle_init(window)
-    print("\n" + str(nbdata))
 
 
 def precedent(frame_middle, window):
@@ -247,7 +246,6 @@ def precedent(frame_middle, window):
             dataf = dataf - (6+nbcomp[nbdata-1]+nbforma[nbdata-1])
             frame_middle.destroy()
             frame_middle_init(window)
-    print("\n" + str(nbdata))
 
 
 def refresh(frame_middle, window):
@@ -292,14 +290,14 @@ def frame_middle_init(window):
 
         if type == 1:
             #-------------Nom-------------#
-            texteLabe2 = Label(frame_middle, bg="#528860", text="Nom :", font=(
+            texteLabe2 = Label(frame_middle, bg="#528860", text="Prénom :", font=(
                 "Times New Roman", 20))
             texteLabe2.place(relx=0.01, rely=0.1, height=30, width=100)
             texteLabe2 = Label(frame_middle, bg="#528860", text=""+str(tuple[0+dataf]), font=(
                 "Times New Roman", 20))
             texteLabe2.place(relx=0.55, rely=0.1, height=30, width=100)
             #-----------Prénom------------#
-            texteLabe3 = Label(frame_middle, bg="#528860", text="Prénom:", font=(
+            texteLabe3 = Label(frame_middle, bg="#528860", text="Nom:", font=(
                 "Times New Roman", 20))
             texteLabe3.place(relx=0.01, rely=0.15, height=30, width=100)
             texteLabe3 = Label(frame_middle, bg="#528860", text=""+str(tuple[1+dataf]), font=(
@@ -315,14 +313,14 @@ def frame_middle_init(window):
 
         if type == 2:
             #-------------Nom-------------#
-            texteLabe2 = Label(frame_middle, bg="#528860", text="Nom :", font=(
+            texteLabe2 = Label(frame_middle, bg="#528860", text="Prénom :", font=(
                 "Times New Roman", 20))
             texteLabe2.place(relx=0.01, rely=0.1, height=30, width=100)
             texteLabe2 = Label(frame_middle, bg="#528860", text=""+str(tuple[0+dataf]), font=(
                 "Times New Roman", 20))
             texteLabe2.place(relx=0.55, rely=0.1, height=30, width=100)
             #-----------Prénom------------#
-            texteLabe3 = Label(frame_middle, bg="#528860", text="Prénom:", font=(
+            texteLabe3 = Label(frame_middle, bg="#528860", text="Nom:", font=(
                 "Times New Roman", 20))
             texteLabe3.place(relx=0.01, rely=0.15, height=30, width=100)
             texteLabe3 = Label(frame_middle, bg="#528860", text=""+str(tuple[1+dataf]), font=(
